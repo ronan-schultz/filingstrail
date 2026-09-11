@@ -1,0 +1,132 @@
+{
+  "_comment": "Deploy-gate expectations for the site-wide pages (masthead, root work list, footers, /method, /data). Independent of site.json and content/*.md on purpose: verify.py compares the built pages against these values AND against the source files (content/*.md, adv-report/METHOD.md, adv-report/REPORT.md, archive/MANIFEST.csv), so a drift in either is caught. Text is compared after the same normalization as checks/adv.json (NFKC, whitespace collapsed, curly quotes -> straight, dashes -> '-'). No 'work' key: load_works() ignores this file.",
+
+  "masthead": {
+    "wordmark": "Filings Trail",
+    "wordmark_href": "/",
+    "root_h1_class": "wordmark",
+    "nav_label": "Site",
+    "nav": [["Work", "/#work"], ["Method", "/method"], ["Data", "/data"]],
+    "_pages_comment": "aria-current expected on the masthead nav, per page. Work pages from checks/<work>.json get [\"Work\", \"true\"] automatically. null = no nav link carries aria-current (on the root the wordmark carries aria-current=page instead).",
+    "pages": {
+      "index.html": {"current": null},
+      "adv/index.html": {"current": ["Work", "true"]},
+      "method/index.html": {"current": ["Method", "page"]},
+      "data/index.html": {"current": ["Data", "page"]},
+      "404.html": {"current": null}
+    },
+    "print_hidden": ["masthead", "footer"]
+  },
+
+  "footer": {
+    "text": "Filings Trail · Built from public SEC filings · Code on GitHub",
+    "link_text": "Code on GitHub",
+    "root_text": "Built and maintained by Ronan Schultz · ronanschultz35@gmail.com"
+  },
+
+  "root": {
+    "work_heading_id": "work",
+    "work_heading_text": "Work",
+    "paragraphs": [
+      "Filings Trail is a public research project that turns SEC filing data into panels: it tracks the same firms across monthly vintages of a filing instead of counting them at a single point in time.",
+      "A count taken at one date is a snapshot. It can say that 628 SEC-registered advisers reported $0 in regulatory assets under management as of July 31, 2025, but not what became of them. A panel can, because every adviser keeps the same CRD number from one monthly file to the next. The firms in one month’s roster can be found again in every later month, and sorted by what happened to them and by what was already visible about them at the start.",
+      "Everything here is built from public data, currently the Form ADV extracts the SEC publishes each month for registered investment advisers. Each piece lists its source files with download links and checksums, and every figure in it is produced by code in a public repository."
+    ],
+    "in_progress_label": "In progress",
+    "works": [
+      {"title": "Two-thirds of pre-launch RIAs haven’t launched a year later", "href": "/adv",
+       "descriptor": "Form ADV new-registrant panel, August 2025 to August 2026."},
+      {"title": "Replication on an earlier cohort", "status": "in_progress",
+       "descriptor": "The new-registrant panel rerun on an earlier $0-AUM cohort."},
+      {"title": "Succession panel", "status": "in_progress", "descriptor": null}
+    ]
+  },
+
+  "sitemap": ["/", "/adv", "/method", "/data"],
+
+  "method": {
+    "page": "method/index.html",
+    "url": "/method",
+    "title": "Method · Filings Trail",
+    "description": "How Filings Trail builds panels from monthly SEC filing data, and the traps in the Form ADV extracts.",
+    "intro_md": "method-intro.md",
+    "intro_expected": [
+      "# Method",
+      "",
+      "A panel follows the same firms through successive editions of a public filing. The SEC republishes its roster of registered investment advisers every month, and each adviser in it carries a CRD number that stays the same from one file to the next. Fix a group of firms in one month's file, find each of them again in later files, and a stack of snapshots becomes a record of what happened to particular firms: which left the SEC's rolls, which changed, and which stayed exactly where they were.",
+      "",
+      "Most of the work is in not being fooled by the files. Every piece here follows the same rules:",
+      "",
+      "- Every figure traces to a line of code in the public repository that printed it.",
+      "- Columns are resolved against each file's real header row, and their values are checked rather than assumed. A field that reads like a website address can turn out to be a yes/no flag.",
+      "- Every derived cut has a cross-check that fails loudly. Firms entered minus firms exited must equal the net change, and a diff of two rosters is checked against each firm's own SEC status date.",
+      "- Each file is dated by the latest filing it contains, never by the date in its name.",
+      "- Every source file is checksummed and its download URL recorded. The archive is listed on the [Data](/data) page.",
+      "",
+      "The rest of this page is the method appendix for the one panel published so far, [the Form ADV new-registrant panel](/adv), adapted from [METHOD.md](https://github.com/ronan-schultz/filingstrail/blob/master/adv-report/METHOD.md) in the repository. Its sources and checksums are at [the end of the report](/adv#sources)."
+    ],
+    "h2": "The Form ADV new-registrant panel",
+    "source_md": "adv-report/METHOD.md",
+    "run_line_prefix": "Run:",
+    "extract_from": "### The file-selection trap",
+    "h3": ["The file-selection trap", "The date trap", "Field mapping", "Diff and its validation", "Results", "Limits"],
+    "heading_renames": {"Limits — state these, don't hide them": "Limits"},
+    "dropped_sentence": "An earlier version of this analysis did that and reported 1,573 validated firms (92.9%) and 120 re-registrations; 116 of those 120 have SEC effective dates in August 2025.",
+    "must_contain": ["Cutting the validation on the filename date instead (2025-09-02) misclassifies every August 2025 registration as a re-registration"],
+    "must_not_contain": ["An earlier version of this analysis", "state these, don't hide them"],
+    "provenance_sources": ["adv-report/METHOD.md", "adv-report/REPORT.md"],
+    "_provenance_comment": "M2: the dropped sentence is removed from METHOD.md before its numbers are collected, so a figure that only lived in that sentence (1,573, 92.9%, 120, 116) is an orphan if it reappears.",
+    "churn": {
+      "stats_log_section": "8.",
+      "pairs": ["+182/-68", "+159/-76", "+207/-76", "+0/-0"],
+      "zero_transition": ["ia08012025.xlsx", "ia09022025.xlsx"],
+      "zero_sentence": "August to September 2025 is +0/-0"
+    }
+  },
+
+  "data": {
+    "page": "data/index.html",
+    "url": "/data",
+    "title": "Data · Filings Trail",
+    "description": "The archive of monthly SEC Form ADV extracts behind Filings Trail, with the date each file's data runs through and its checksum.",
+    "intro_md": "data-intro.md",
+    "intro_expected": [
+      "# Data",
+      "",
+      "Everything here is built from the Form ADV extracts the SEC publishes each month for investment advisers. There are two each month: one for registered advisers, which carries the assets, headcount and client items a panel needs, and one for exempt reporting advisers, who file a truncated form.",
+      "",
+      "The SEC's index lists only the most recent fifteen months or so of these files. Older editions are delisted rather than deleted, and as of September 10, 2026 they still resolve at their original URLs. A panel needs consecutive months, so the project keeps its own checksummed copy of every file and records each one below, whether it was found on the index or recovered from a delisted address.",
+      "",
+      "Each file is classified by what it contains rather than what it is called, and dated by the latest filing inside it. The two can disagree: the registered-adviser file posted on September 2, 2025 holds the same roster as the one posted a month earlier, with no filing after July 31, 2025. A dagger (†) marks every file whose data does not advance past the previous file of the same kind.",
+      "",
+      "The files themselves are not redistributed here; each name links to the SEC's copy. The two files compared in [the new-registrant panel](/adv) are in bold. The complete manifest, with full checksums, is [manifest.csv](/data/manifest.csv)."
+    ],
+    "manifest": "archive/MANIFEST.csv",
+    "manifest_copy": "data/manifest.csv",
+    "manifest_url": "/data/manifest.csv",
+    "sections": [["Registered advisers", "registered"], ["Exempt reporting advisers", "exempt"]],
+    "columns": ["File", "File date", "Data through", "Rows", "Source", "sha256"],
+    "source_labels": {"index": "index", "backfill": "delisted"},
+    "sha_prefix_len": 12,
+    "dagger": "†",
+    "_stale_comment": "Stale rule (fetch_adv.py stale_against, as the site contract states it): a file is stale if its data_through <= the maximum data_through among earlier-vintage files of the same variant_by_content. expected_stale is the set for the current manifest; a manifest change that alters it fails D3 until this list is reviewed.",
+    "expected_stale": ["ia09022025.xlsx"],
+    "note": "† Data does not advance past the previous file of the same kind.",
+    "panel_class": "panel-file",
+    "panel_files": {
+      "ia09012026-registered.zip": {"rows": "17,149", "sha256": "2302e3ea00819b40f9f595dca53925137e9a6efacbdbfb8d912e66780c92601e", "data_through": "2026-08-31"},
+      "ia09022025.xlsx": {"rows": "16,359", "sha256": "977d83fdd67acdc464d30d892fe1a839fae2d8d6a47661ecb7ec53bd0e7c312c", "data_through": "2025-07-31"}
+    },
+    "adv_page": "adv/index.html",
+    "adv_sources_id": "sources",
+    "method_sources_heading": "## Sources"
+  },
+
+  "halo": {
+    "_comment": "K2: chart labels get a background-coloured halo. The rule must reach the <text> of every inline chart, in every medium (not only print or dark).",
+    "paint_order_first": "stroke",
+    "stroke_var": "--bg",
+    "max_stroke_width_px": 4,
+    "linejoin": "round"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "_comment": "Site-wide expectations for verify.py. Independent of site.json on purpose: verify.py cross-checks site.json against these values instead of trusting it.",
+  "site_config": "site.json",
+  "name": "Filings Trail",
+  "base_url": "https://filingstrail.com",
+  "hosts": ["filingstrail.com", "www.filingstrail.com"],
+  "author": "Ronan Schultz",
+  "email": "ronanschultz35@gmail.com",
+  "repo_url": "https://github.com/ronan-schultz/filingstrail",
+  "repo_branch": "master",
+  "_repo_comment": "H fails unless site.json repo_url equals repo_url here. C1 exempts the owner handle inside href=\"<repo_url>...\" attribute values only (the GitHub account name, not a byline); the same words in visible text, other attributes, PDF text or any other URL still count as stray name words.",
+  "root_page": "index.html",
+  "analytics_tag": "<script defer src=\"/_vercel/insights/script.js\"></script>",
+  "analytics_path": "/_vercel/insights/script.js",
+  "analytics_allowance_bytes": 6000,
+  "page_weight_limit_bytes": 300000,
+  "mobile_viewports": [[320, 900], [375, 812]],
+  "screenshot_sizes": [[390, 2400], [1280, 2400]],
+  "window_length_must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b"],
+  "chart_css_vars": {
+    "--chart-ink":    ["#1a1a1a", "#e6e3de"],
+    "--chart-ink-2":  ["#444444", "#bdb9b2"],
+    "--chart-muted":  ["#666666", "#a29e97"],
+    "--chart-bar":    ["#7a8aa0", "#8595ab"],
+    "--chart-alert":  ["#c05746", "#dd7866"],
+    "--chart-key":    ["#3e5a78", "#a9c3e0"]
+  }
+}

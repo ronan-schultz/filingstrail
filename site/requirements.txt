@@ -1,0 +1,9 @@
+# build.py: Markdown rendering
+markdown==3.10.3
+# charts.py: re-runs the frozen chart code in adv-report/ (reads .xlsx via openpyxl)
+matplotlib==3.10.8
+pandas==3.0.1
+openpyxl==3.1.5
+# pdf.py and verify.py: PDF text extraction and page previews
+PyMuPDF==1.27.2.3
+pypdf==6.13.2

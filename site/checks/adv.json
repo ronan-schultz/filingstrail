@@ -1,0 +1,119 @@
+{
+  "_comment": "Deploy-gate expectations for the Form ADV new-registrant panel. Every figure below was confirmed against adv-report/REPORT.md (current version) on 2026-09-10. Text is matched after normalization: NFKC, NBSP/thin spaces -> space, whitespace collapsed, curly quotes -> straight, en/em/minus dashes -> '-', tags stripped (text inside inline <svg><text> kept). 'must_contain' entries are literal substrings (case-sensitive); 'must_match' / 'must_not_match' entries are Python regexes.",
+  "work": "adv",
+  "title": "Form ADV new-registrant panel",
+  "url": "/adv",
+  "page": "adv/index.html",
+  "pdf_glob": "adv/*.pdf",
+  "source_of_truth": "adv-report/REPORT.md",
+
+  "gate": [
+    {
+      "row": "Window",
+      "value": "August 1 2025 - August 31 2026, thirteen months",
+      "must_contain": ["August 1, 2025 to August 31, 2026", "The window runs thirteen months"],
+      "must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b"]
+    },
+    {
+      "row": "Entered / exited / net",
+      "value": "1,693 / 903 / +790",
+      "must_contain": ["1,693 entered, 903 exited, net +790"]
+    },
+    {
+      "row": "$0-AUM cohort",
+      "value": "628 firms, roster as of July 31 2025",
+      "must_contain": ["The roster as of July 31, 2025 had 628 registered advisers reporting $0 in AUM"]
+    },
+    {
+      "row": "Validated new registrations",
+      "value": "1,689 of 1,693 (99.8%)",
+      "must_match": ["1,689 of 1,693\\s*\\(99\\.8%\\)"]
+    },
+    {
+      "row": "Re-registrations",
+      "value": "4",
+      "must_contain": ["The other 4 are re-registrations"]
+    },
+    {
+      "row": "No-website rate, validated only",
+      "value": "15.9%",
+      "must_contain": ["The no-website result holds without them, at 15.9%"]
+    },
+    {
+      "row": "Website split",
+      "value": "39.6% (n=154) no site vs 32.1% (n=474) with one",
+      "must_contain": ["39.6% (n=154)", "32.1% for firms that had one (n=474)"]
+    },
+    {
+      "row": "Headcount bands",
+      "value": "1: n=128, 25.8% / 32.8% | 2-5: n=265, 44.5% / 18.1% | 6-20: n=134, 31.3% / 17.2% | 21+: n=101, 19.8% / 4.0% (converted / deregistered)",
+      "table": {
+        "first_header_startswith": "Employees",
+        "header": ["Employees*", "n", "Converted", "Deregistered"],
+        "rows": [
+          ["1", "128", "25.8%", "32.8%"],
+          ["2-5", "265", "44.5%", "18.1%"],
+          ["6-20", "134", "31.3%", "17.2%"],
+          ["21+", "101", "19.8%", "4.0%"]
+        ]
+      }
+    },
+    {
+      "row": "Tests",
+      "value": "headcount z=3.58 p=0.0003 | website z=1.72 p=0.086 | deregistration z=3.25 p=0.0012",
+      "units": [
+        {"name": "headcount (conversion)", "unit": "clause", "all": ["z = 3.58, p = 0.0003", "conversion"]},
+        {"name": "deregistration", "unit": "clause", "all": ["z = 3.25", "p = 0.0012", "deregistration"]},
+        {"name": "website", "unit": "sentence", "all_re": ["z = 1\\.72, p = 0\\.086(?!\\d)"]}
+      ],
+      "allowed_z": ["3.58", "3.25", "1.72"],
+      "allowed_p": ["0.0003", "0.0012", "0.086"]
+    }
+  ],
+
+  "charts": [
+    {
+      "name": "no-website chart",
+      "asset": "assets/adv/new_registrants.svg",
+      "identify_text_any": ["twice as likely to have no website", "share with no website"],
+      "identify_attr_any": ["new_registrants", "new-registrants", "no-website", "no_website"],
+      "text_contains": [],
+      "a_line_contains_all": ["1,693", "Aug 1, 2025 to Aug 31, 2026"]
+    },
+    {
+      "name": "headcount chart",
+      "asset": "assets/adv/conversion_by_headcount.svg",
+      "identify_text_any": ["Headcount sorts", "employees reported on Form ADV"],
+      "identify_attr_any": ["conversion_by_headcount", "conversion-by-headcount", "headcount"],
+      "text_contains": ["n=128", "n=265", "n=134", "n=101", "z=3.58, p=0.0003"],
+      "a_line_contains_all": []
+    }
+  ],
+
+  "root_page": {
+    "_comment": "Figures the root page may carry for this work. Any other multi-digit number or percentage on the root page fails. Email addresses and URLs are removed before scanning; allowed_phrases are removed first so the '31' in 'July 31, 2025' is not counted.",
+    "must_contain": ["628", "July 31, 2025"],
+    "allowed_phrases": ["July 31, 2025"],
+    "allowed_figures": ["628", "2025", "2026"],
+    "links_to": ["/adv"]
+  },
+
+  "csv": {
+    "path": "adv/new_registrants.csv",
+    "linked_from_page": "/adv/new_registrants.csv",
+    "rows_total": 1693,
+    "flag_column": "_new_registration",
+    "flag_true": 1689,
+    "website_column": "_site",
+    "no_website_rate_among_flagged": "15.9"
+  },
+
+  "forbidden": [
+    "September to September",
+    "twelve months",
+    "1,573",
+    "92.9%",
+    "120 re-registrations",
+    "16.2%"
+  ]
+}

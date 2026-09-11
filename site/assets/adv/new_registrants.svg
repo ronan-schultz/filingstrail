@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" viewBox="0 0 604.529375 313.234466" role="img" aria-label="Share of new SEC-registered advisers reporting no website, by regulatory AUM band. The rate is flat near 13% across every band reporting assets and 32% among firms reporting $0, against an 8.1% baseline for all 17,149 registered advisers." style="stroke-linejoin: round; stroke-linecap: butt; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)">
+<path d="M 72.358011 246.96552 L 130.658718 246.96552 L 130.658718 72.434766 L 72.358011 72.434766 z" clip-path="url(#nr-p21ef31d557)" style="fill: #c05746; fill: var(--chart-alert, #c05746); stroke: #c05746; stroke: var(--chart-alert, #c05746); stroke-linejoin: miter" />
+<path d="M 160.692415 246.96552 L 218.993122 246.96552 L 218.993122 177.056257 L 160.692415 177.056257 z" clip-path="url(#nr-p21ef31d557)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 249.02682 246.96552 L 307.327526 246.96552 L 307.327526 178.945696 L 249.02682 178.945696 z" clip-path="url(#nr-p21ef31d557)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 337.361224 246.96552 L 395.66193 246.96552 L 395.66193 178.908537 L 337.361224 178.908537 z" clip-path="url(#nr-p21ef31d557)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 425.695628 246.96552 L 483.996335 246.96552 L 483.996335 207.979976 L 425.695628 207.979976 z" clip-path="url(#nr-p21ef31d557)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 514.030032 246.96552 L 572.330739 246.96552 L 572.330739 187.043294 L 514.030032 187.043294 z" clip-path="url(#nr-p21ef31d557)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(77.215826 260.391848)">$0 reported</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(88.168287 270.439879)">n=309</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(175.187534 259.765442)">&lt;$25M</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(179.144136 269.813473)">n=54</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(256.790298 259.765442)">$25-100M</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(265.53772 269.813473)">n=111</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(342.483257 259.765442)">$100-500M</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(349.210444 269.813473)">n=1,046</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(432.932153 259.765442)">$500M-1B</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(444.147348 269.813473)">n=83</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(531.954799 259.765442)">&gt;$1B</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(532.481752 269.813473)">n=90</text>
+<defs>
+<path id="nr-m42b78f1909" d="M 0 0 L -3.5 0" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+</defs>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="246.96552" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="250.544426">0%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="220.000518" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="223.579425">5%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="193.035517" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="196.614423">10%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="166.070515" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="169.649422">15%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="139.105514" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="142.68442">20%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="112.140512" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="115.719419">25%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="85.175511" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="88.754417">30%</text>
+<use xlink:href="#nr-m42b78f1909" x="47.359375" y="58.210509" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="61.789416">35%</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="14.357813" y="140.50176" transform="rotate(-90 14.357813 140.50176)">share with no website</text>
+<path d="M 47.359375 246.96552 L 47.359375 34.038" style="fill: none; stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
+<path d="M 47.359375 246.96552 L 597.329375 246.96552" style="fill: none; stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
+<path d="M 47.359375 203.25294 L 597.329375 203.25294" clip-path="url(#nr-p21ef31d557)" style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #444444; stroke: var(--chart-ink-2, #444444); stroke-width: 1.2" />
+<text style="font-size: 8.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #444444; fill: var(--chart-ink-2, #444444)" x="145.675567" y="196.610255">all registered advisers: 8.1%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="101.508365" y="67.581066">32%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="189.842769" y="172.202557">13%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="278.177173" y="174.091996">13%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="366.511577" y="174.054837">13%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="454.845981" y="203.126275">7%</text>
+<text style="font-weight: 700; font-size: 10.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="543.180385" y="182.189594">11%</text>
+<text style="font-size: 7.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #666666; fill: var(--chart-muted, #666666)" x="47.359375" y="304.45595">Source: SEC Form ADV monthly registered-adviser extracts, diffed on Organization CRD#. AUM = Item 5F(2)(c); website = Item 1.I.</text>
+<text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 15.571641)">New SEC-registered advisers are twice as likely to have no website</text>
+<text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 28.038)">1,693 firms registered Aug 1, 2025 to Aug 31, 2026, by reported regulatory AUM</text>
+<defs>
+<clipPath id="nr-p21ef31d557">
+<rect x="47.359375" y="34.038" width="549.97" height="212.92752" />
+</clipPath>
+</defs>
+</svg>

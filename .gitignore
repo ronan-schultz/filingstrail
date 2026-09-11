@@ -1,0 +1,11 @@
+data/
+*.pyc
+__pycache__/
+.venv/
+archive/raw/
+archive/.useragent
+archive/*.log
+site/dist/
+site/build/
+site/checks/out/
+.vercel/

@@ -1,0 +1,115 @@
+{
+  "name": "Filings Trail",
+  "domain": "filingstrail.com",
+  "base_url": "https://filingstrail.com",
+  "author": "Ronan Schultz",
+  "email": "ronanschultz35@gmail.com",
+  "repo_url": "https://github.com/ronan-schultz/filingstrail",
+  "repo_branch": "master",
+  "analytics_src": "/_vercel/insights/script.js",
+  "nav": [
+    {"text": "Work", "href": "/#work"},
+    {"text": "Method", "href": "/method"},
+    {"text": "Data", "href": "/data"}
+  ],
+  "footer": {
+    "tagline": "Built from public SEC filings",
+    "repo_text": "Code on GitHub"
+  },
+  "root": {
+    "template": "templates/root.html",
+    "description": "Filings Trail is a public research project that turns SEC filing data into panels: it tracks the same firms across monthly vintages of a filing instead of counting them at a single point in time.",
+    "works_heading": "Work",
+    "works_id": "work",
+    "in_progress_label": "In progress"
+  },
+  "works": [
+    {
+      "slug": "adv",
+      "title": "Two-thirds of pre-launch RIAs haven't launched a year later",
+      "descriptor": "Form ADV new-registrant panel, August 2025 to August 2026.",
+      "description": "A thirteen-month panel of the SEC-registered advisers that reported $0 in assets under management, built from monthly Form ADV extracts.",
+      "date_label": "September 2026",
+      "date_iso": "2026-09",
+      "source_md": "../adv-report/REPORT.md",
+      "figures": {
+        "new_registrants.png": "assets/adv/new_registrants.svg",
+        "conversion_by_headcount.png": "assets/adv/conversion_by_headcount.svg"
+      },
+      "links": [
+        {
+          "section": "Method",
+          "text": "the firm-level CSV",
+          "href": "/adv/new_registrants.csv",
+          "download": true
+        }
+      ],
+      "appendix": [
+        {
+          "from": "../adv-report/METHOD.md",
+          "start": "## Sources",
+          "end": "### The file-selection trap",
+          "drop": ["See the date trap below."],
+          "heading": "Sources",
+          "after": "Method",
+          "note": "Reproduced from `METHOD.md`, which also carries the field mapping and the full list of limits."
+        }
+      ],
+      "downloads": {
+        "csv": {"from": "assets/adv/new_registrants.csv", "name": "new_registrants.csv"},
+        "pdf": "adv-new-registrants-2026-09-10.pdf"
+      },
+      "pdf_must_contain": ["share with no website", "share of cohort"],
+      "checks": "checks/adv.json"
+    },
+    {
+      "title": "Replication on an earlier cohort",
+      "descriptor": "The new-registrant panel rerun on an earlier $0-AUM cohort.",
+      "status": "in_progress"
+    },
+    {
+      "title": "Succession panel",
+      "status": "in_progress"
+    }
+  ],
+  "method": {
+    "slug": "method",
+    "title": "Method",
+    "description": "How Filings Trail builds panels from monthly SEC filing data, and the traps in the Form ADV extracts.",
+    "intro": "content/method-intro.md",
+    "panels": [
+      {
+        "work": "adv",
+        "heading": "The Form ADV new-registrant panel",
+        "from": "../adv-report/METHOD.md",
+        "run_line": "Run: ",
+        "start": "### The file-selection trap",
+        "heading_level": 3,
+        "drop": [
+          "An earlier version of this analysis did that and reported 1,573 validated firms (92.9%) and 120 re-registrations; 116 of those 120 have SEC effective dates in August 2025."
+        ],
+        "rename_headings": {
+          "Limits — state these, don't hide them": "Limits"
+        }
+      }
+    ]
+  },
+  "data": {
+    "slug": "data",
+    "title": "Data",
+    "description": "The archive of monthly SEC Form ADV extracts behind Filings Trail, with the date each file's data runs through and its checksum.",
+    "intro": "content/data-intro.md",
+    "manifest": "../archive/MANIFEST.csv",
+    "manifest_name": "manifest.csv",
+    "sections": [
+      {"variant": "registered", "heading": "Registered advisers"},
+      {"variant": "exempt", "heading": "Exempt reporting advisers"}
+    ],
+    "source_labels": {"index": "index", "backfill": "delisted"},
+    "panel_files": ["ia09012026-registered.zip", "ia09022025.xlsx"],
+    "panel_checksums_in": "../adv-report/METHOD.md",
+    "expected_stale": ["ia09022025.xlsx"],
+    "stale_mark": "†",
+    "stale_note": "† Data does not advance past the previous file of the same kind."
+  }
+}

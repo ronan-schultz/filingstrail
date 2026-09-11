@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" viewBox="0 0 592.508594 306.771787" role="img" aria-label="Conversion and deregistration rates by July 2025 headcount for the 628 advisers reporting $0 AUM. Firms with 2-5 employees convert at 45% and deregister at 18%; solo registrants convert at 26% and deregister at 33%." style="stroke-linejoin: round; stroke-linecap: butt; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)">
+<path d="M 69.375739 234.876268 L 113.876899 234.876268 L 113.876899 135.533457 L 69.375739 135.533457 z" clip-path="url(#hc-p56f7427682)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 186.484056 234.876268 L 230.985216 234.876268 L 230.985216 63.295499 L 186.484056 63.295499 z" clip-path="url(#hc-p56f7427682)" style="fill: #3e5a78; fill: var(--chart-key, #3e5a78); stroke: #3e5a78; stroke: var(--chart-key, #3e5a78); stroke-linejoin: miter" />
+<path d="M 303.592373 234.876268 L 348.093534 234.876268 L 348.093534 114.10129 L 303.592373 114.10129 z" clip-path="url(#hc-p56f7427682)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 420.70069 234.876268 L 465.201851 234.876268 L 465.201851 158.573359 L 420.70069 158.573359 z" clip-path="url(#hc-p56f7427682)" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<path d="M 113.876899 234.876268 L 158.37806 234.876268 L 158.37806 108.439963 L 113.876899 108.439963 z" clip-path="url(#hc-p56f7427682)" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<path d="M 230.985216 234.876268 L 275.486377 234.876268 L 275.486377 165.080701 L 230.985216 165.080701 z" clip-path="url(#hc-p56f7427682)" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<path d="M 348.093534 234.876268 L 392.594694 234.876268 L 392.594694 168.73759 L 348.093534 168.73759 z" clip-path="url(#hc-p56f7427682)" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<path d="M 465.201851 234.876268 L 509.703011 234.876268 L 509.703011 219.615686 L 465.201851 219.615686 z" clip-path="url(#hc-p56f7427682)" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(111.09643 245.534081)">1</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(99.834712 256.110956)">n=128</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(223.759435 245.534081)">2-5</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(216.943029 256.110956)">n=265</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(338.087284 245.534081)">6-20</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(334.051346 256.110956)">n=134</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(456.720601 245.534081)">21+</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(451.159663 256.110956)">n=101</text>
+<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="289.539375" y="272.567206">employees reported on Form ADV Item 5.A, July 2025 roster</text>
+<defs>
+<path id="hc-m42b78f1909" d="M 0 0 L -3.5 0" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+</defs>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="234.876268" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="238.455174">0%</text>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="196.343299" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="199.922205">10%</text>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="157.81033" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="161.389236">20%</text>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="119.27736" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="122.856267">30%</text>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="80.744391" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="84.323297">40%</text>
+<use xlink:href="#hc-m42b78f1909" x="47.359375" y="42.211422" style="stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8" />
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: end; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="40.359375" y="45.790328">50%</text>
+<text style="font-size: 10px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="14.357813" y="134.690548" transform="rotate(-90 14.357813 134.690548)">share of cohort</text>
+<path d="M 47.359375 234.876268 L 47.359375 34.504828" style="fill: none; stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
+<path d="M 47.359375 234.876268 L 531.719375 234.876268" style="fill: none; stroke: #1a1a1a; stroke: var(--chart-ink, #1a1a1a); stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="91.626319" y="132.06549">26%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="208.734636" y="59.827532">45%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="325.842953" y="110.633323">31%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="442.951271" y="155.105392">20%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="136.127479" y="104.971996">33%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="253.235797" y="161.612734">18%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="370.344114" y="165.269622">17%</text>
+<text style="font-size: 9.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: middle; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="487.452431" y="216.147719">4%</text>
+<text style="font-size: 7.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #666666; fill: var(--chart-muted, #666666)" transform="translate(47.359375 287.034131)">Source: SEC Form ADV monthly registered-adviser extracts. Conversion gap between 1 and 2-5 employees: z=3.58, p=0.0003.</text>
+<text style="font-size: 7.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #666666; fill: var(--chart-muted, #666666)" transform="translate(47.359375 297.993272)">The 21+ band is not a failure rate: firms that large report $0 for structural reasons rather than because they are pre-launch, which its 4% deregistration rate shows.</text>
+<text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 15.431484)">Headcount sorts the pre-launch cohort; website presence does not</text>
+<text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 28.504828)">628 SEC-registered advisers reporting $0 AUM as of Jul 31, 2025, tracked to Aug 31, 2026</text>
+<path d="M 388.8725 49.046859 L 406.8725 49.046859 L 406.8725 42.746859 L 388.8725 42.746859 z" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="414.0725" y="49.046859">reported assets a year later</text>
+<path d="M 388.8725 61.883109 L 406.8725 61.883109 L 406.8725 55.583109 L 388.8725 55.583109 z" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="414.0725" y="61.883109">deregistered</text>
+<defs>
+<clipPath id="hc-p56f7427682">
+<rect x="47.359375" y="34.504828" width="484.36" height="200.37144" />
+</clipPath>
+</defs>
+</svg>
