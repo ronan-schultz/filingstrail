@@ -160,14 +160,29 @@ def status_of(w: dict) -> str:
 
 
 # ------------------------------------------------------------------ chart SVGs
-def prepare_svg(text: str, prefix: str, labelledby: str, taken: set[str]) -> str:
+def chart_title(svg: str, where: str) -> str:
+    """The chart's own headline: the first <text> set in the largest font size."""
+    best, size = None, 0.0
+    for m in re.finditer(r"<text\b([^>]*)>(.*?)</text>", svg, re.S):
+        fs = re.search(r"font-size:\s*([\d.]+)px", m[1])
+        text = " ".join(strip_tags(m[2]).split())
+        if fs and text and float(fs[1]) > size:
+            best, size = text, float(fs[1])
+    if not best:
+        fail(f"{where}: no <text> with a font-size to take the chart's title from")
+    return best
+
+
+def prepare_svg(text: str, prefix: str, describedby: str, taken: set[str]) -> tuple[str, str]:
     """Make a chart SVG safe to inline next to others on one page.
 
-    Strips any XML prolog and labels the root <svg> by its figcaption. charts.py
-    already prefixes ids per chart; if this SVG's ids still collide with a
-    figure inlined earlier on the page (two matplotlib SVGs share "axes_1" and
-    would cross-wire clip paths), they are namespaced with `prefix` here.
-    `taken` collects the ids used so far on the page.
+    Strips any XML prolog, names the root <svg> by the chart's own headline and
+    describes it by its figcaption (so assistive tech hears the title once and
+    the caption once, as the description). charts.py already prefixes ids per
+    chart; if this SVG's ids still collide with a figure inlined earlier on the
+    page (two matplotlib SVGs share "axes_1" and would cross-wire clip paths),
+    they are namespaced with `prefix` here. `taken` collects the ids used so far
+    on the page. Returns (svg, title).
     """
     s = text.replace("\r\n", "\n").strip()
     s = re.sub(r"^<\?xml[^>]*\?>\s*", "", s)
@@ -184,9 +199,11 @@ def prepare_svg(text: str, prefix: str, labelledby: str, taken: set[str]) -> str
                    lambda m: f"{m[1]}#{prefix}-{m[2]}{m[3]}" if m[2] in ids else m[0], s)
         ids = {f"{prefix}-{i}" for i in ids}
     taken |= ids
+    title = chart_title(s, prefix)
     m = re.match(r"<svg\b([^>]*?)(/?)>", s)
-    attrs = re.sub(r'\s(?:role|aria-labelledby|aria-label|aria-hidden)="[^"]*"', "", m[1])
-    return f'<svg{attrs} role="img" aria-labelledby="{labelledby}"{m[2]}>' + s[m.end():]
+    attrs = re.sub(r'\s(?:role|aria-labelledby|aria-describedby|aria-label|aria-hidden)="[^"]*"', "", m[1])
+    return (f'<svg{attrs} role="img" aria-label="{esc(title)}" aria-describedby="{describedby}"{m[2]}>'
+            + s[m.end():], title)
 
 
 # ------------------------------------------------------------------ markdown
@@ -275,10 +292,12 @@ class SiteTreeprocessor(Treeprocessor):
                 fail(f"image {src!r} has no alt text to use as its caption")
             stem = Path(src).stem
             cap_id = f"fig-{stem}"
-            svg = prepare_svg(read_text(path), stem, cap_id, self.ctx.svg_ids)
+            svg, title = prepare_svg(read_text(path), stem, cap_id, self.ctx.svg_ids)
             fig = etree.Element("figure")
+            # The scroll box is a named region (it takes focus for keyboard
+            # scrolling); its name is the chart's short title, not the caption.
             box = etree.SubElement(fig, "div", {"class": "fig-scroll", "role": "region",
-                                                "aria-labelledby": cap_id, "tabindex": "0"})
+                                                "aria-label": title, "tabindex": "0"})
             box.text = self.md.htmlStash.store(svg)
             cap = etree.SubElement(fig, "figcaption", {"id": cap_id})
             cap.text = alt
@@ -306,8 +325,11 @@ class SiteTreeprocessor(Treeprocessor):
                     for x in cells:
                         x.set("class", "num")
             label = "Table: " + ", ".join(self.text(h) for h in head)
-            wrap = etree.Element("div", {"class": "table-wrap", "role": "region",
-                                         "aria-label": label, "tabindex": "0"})
+            # A column of checksums never fits a phone: that table runs to the
+            # screen edge there (style.css .table-wrap.bleed) so the cut shows.
+            wide = any(HEX_RE.fullmatch(self.text(c)) for r in rows for c in r)
+            wrap = etree.Element("div", {"class": "table-wrap bleed" if wide else "table-wrap",
+                                         "role": "region", "aria-label": label, "tabindex": "0"})
             self.replace(parents, table, wrap)
             wrap.append(table)
 
@@ -371,10 +393,33 @@ class SiteExtension(Extension):
         md.treeprocessors.register(SiteTreeprocessor(md, self.ctx), "filingstrail", 15)
 
 
+# A date or a numeric range written with a hyphen or en dash ("2025-08-01", "2-5",
+# "$25–100M"): one unit that must not break across lines at its dash.
+NUM_RUN_RE = re.compile(r"(?<![\w$.,])\$?\d+(?:[.,]\d+)*(?:[-–]\$?\d+(?:[.,]\d+)*[A-Za-z%]*)+(?![\w-])")
+
+
+def nobr_numbers(html_text: str) -> str:
+    """Wrap dates and numeric ranges in prose in <span class="nobr">. Text inside
+    tags, <code>, <pre>, <svg>, <style> and <script> is left alone; the page's
+    text is unchanged, only where a line may break."""
+    parts = re.split(r"(<[^>]+>)", html_text)
+    skip = 0
+    for i, part in enumerate(parts):
+        if part.startswith("<"):
+            tag = re.match(r"</?\s*([A-Za-z0-9]+)", part)
+            name = tag[1].lower() if tag else ""
+            if name in ("code", "pre", "svg", "style", "script") and not part.endswith("/>"):
+                skip += -1 if part.startswith("</") else 1
+            continue
+        if not skip and part:
+            parts[i] = NUM_RUN_RE.sub(lambda m: f'<span class="nobr">{m[0]}</span>', part)
+    return "".join(parts)
+
+
 def render_md(text: str, ctx: Ctx) -> str:
     md = markdown.Markdown(extensions=["tables", "fenced_code", "toc", "smarty", SiteExtension(ctx)],
                            extension_configs={"smarty": SMARTY}, output_format="html")
-    out = md.convert(text)
+    out = nobr_numbers(md.convert(text))
     # fenced_code stashes its blocks as raw HTML, out of the treeprocessor's
     # reach; they scroll sideways on phones, so make them focusable here too.
     out = out.replace("<pre>", '<pre tabindex="0">')
@@ -386,7 +431,7 @@ def render_md(text: str, ctx: Ctx) -> str:
         rank = {"class": 0, "role": 1, "aria-label": 2, "aria-labelledby": 2, "tabindex": 3}
         attrs.sort(key=lambda kv: rank.get(kv[0], 4))
         return "<div" + "".join(f' {k}="{v}"' for k, v in attrs) + ">"
-    return re.sub(r'<div((?:\s[\w:-]+="[^"]*")*\sclass="(?:table-wrap|fig-scroll)"(?:\s[\w:-]+="[^"]*")*)>',
+    return re.sub(r'<div((?:\s[\w:-]+="[^"]*")*\sclass="(?:table-wrap(?: bleed)?|fig-scroll)"(?:\s[\w:-]+="[^"]*")*)>',
                   order, out)
 
 
@@ -788,11 +833,17 @@ class Site:
         parts = [esc(self.cfg["name"]), esc(f["tagline"])]
         if self.cfg["repo_url"]:
             parts.append(f'<a href="{esc(self.cfg["repo_url"])}">{esc(f["repo_text"])}</a>')
-        return "<footer>\n<p>" + " · ".join(parts) + "</p>\n</footer>"
+        # A no-break space before each separator: when the line wraps, the dot
+        # ends a line instead of starting the next one.
+        return "<footer>\n<p>" + "&nbsp;· ".join(parts) + "</p>\n</footer>"
 
     def page(self, *, title, description, canonical, og_title, og_type, body, robots=""):
+        """`canonical` None (the 404 page): no canonical link and no og:url, so a
+        page that is not at one address does not claim the home page's."""
+        link = f'<link rel="canonical" href="{esc(canonical)}">\n' if canonical else ""
+        og_url = f'<meta property="og:url" content="{esc(canonical)}">\n' if canonical else ""
         return fill(self.shell, title=esc(title), description=esc(description),
-                    canonical=esc(canonical), og_title=esc(og_title), og_type=og_type,
+                    canonical_link=link, og_url=og_url, og_title=esc(og_title), og_type=og_type,
                     site_name=esc(self.cfg["name"]), favicon=self.favicon, css=self.css,
                     analytics_src=esc(self.cfg["analytics_src"]), robots=robots,
                     body=body.strip("\n"))
@@ -880,7 +931,9 @@ class Site:
             # The repository itself, not a subfolder: the files the report names
             # are linked individually where it names them.
             meta += f'<span class="noprint"> · <a href="{esc(repo)}">Repository</a></span>'
-        meta += f'<span class="noprint"> · <a href="{esc(pdf_href)}" download>PDF</a></span>'
+        # No `download` attribute: a same-origin PDF opens in the browser's viewer,
+        # which still saves it, and a policy that blocks downloads cannot eat the link.
+        meta += f'<span class="noprint"> · <a href="{esc(pdf_href)}">PDF</a></span>'
 
         canonical = f"{self.base}/{w['slug']}"
         page_body = fill(read_text(HERE / "templates" / "work.html"),
@@ -898,12 +951,15 @@ class Site:
     def doc_page(self, spec: dict, content: str) -> None:
         slug = spec["slug"]
         canonical = f"{self.base}/{slug}"
+        # The page's own address closes <main>, print only: a printout has no
+        # masthead or footer, and this keeps its provenance on the paper.
         body = fill(read_text(HERE / "templates" / "doc.html"),
                     masthead=self.masthead(current=f"/{slug}", mode="page"),
-                    content=content.strip("\n"), footer=self.footer())
+                    content=content.strip("\n"), canonical=esc(canonical), footer=self.footer())
+        title = f"{spec['title']} · {self.cfg['name']}"
         self.pages[f"{slug}/index.html"] = self.page(
-            title=f"{spec['title']} · {self.cfg['name']}", description=spec["description"],
-            canonical=canonical, og_title=spec["title"], og_type="article", body=body)
+            title=title, description=spec["description"],
+            canonical=canonical, og_title=title, og_type="article", body=body)
         self.urls.append(canonical)
 
     def intro(self, spec: dict) -> tuple[str, Ctx]:
@@ -952,6 +1008,18 @@ class Site:
     def data(self) -> tuple[Path, str]:
         spec = self.cfg["data"]
         intro, _ = self.intro(spec)
+        # Bold is the only visual mark of the panel files; screen readers do not
+        # announce it. The intro paragraph that says so gets an id, and the two
+        # panel links point at it with aria-describedby. Page text is unchanged.
+        note_id = None
+        if spec.get("panel_note"):
+            paras = [m for m in re.finditer(r"<p>(.*?)</p>", intro, re.S)
+                     if spec["panel_note"] in strip_tags(m[1])]
+            if len(paras) != 1:
+                fail(f"{spec['intro']}: expected one paragraph containing {spec['panel_note']!r} "
+                     f"(data.panel_note), found {len(paras)}")
+            note_id = spec.get("panel_note_id", "panel-files")
+            intro = intro[:paras[0].start()] + f'<p id="{note_id}">' + intro[paras[0].start() + len("<p>"):]
         variants = [s["variant"] for s in spec["sections"]]
         labels = spec["source_labels"]
         src = (HERE / spec["manifest"]).resolve()
@@ -989,12 +1057,15 @@ class Site:
             trs = []
             for r in mine:
                 name, sha = r["filename"], r["sha256"]
-                link = f'<a href="{esc(r["url"])}">{esc(name)}</a>'
+                described = f' aria-describedby="{note_id}"' if name in panel and note_id else ""
+                link = f'<a href="{esc(r["url"])}"{described}>{esc(name)}</a>'
                 if name in panel:
                     link = f"<strong>{link}</strong>"
                 through = esc(r["data_through"]) + (f" {esc(mark)}" if name in stale else "")
                 tr = ' class="panel-file"' if name in panel else ""
-                trs.append(f"<tr{tr}>\n<td>{link}</td>\n<td>{esc(r['vintage'])}</td>\n"
+                # The file name is the row's header: a screen reader moving down
+                # the sha256 or "Data through" column hears which file it is in.
+                trs.append(f'<tr{tr}>\n<th scope="row">{link}</th>\n<td>{esc(r["vintage"])}</td>\n'
                            f"<td>{through}</td>\n<td class=\"num\">{int(r['n_rows']):,}</td>\n"
                            f"<td>{esc(labels[r['source']])}</td>\n"
                            f'<td><code title="{esc(sha)}">{esc(sha[:12])}</code></td>\n</tr>')
@@ -1014,7 +1085,7 @@ class Site:
                     masthead=self.masthead(), footer=self.footer())
         self.pages["404.html"] = self.page(
             title=f"Page not found · {self.cfg['name']}", description="There is no page at this address.",
-            canonical=self.base + "/", og_title="Page not found", og_type="website", body=body,
+            canonical=None, og_title="Page not found", og_type="website", body=body,
             robots='<meta name="robots" content="noindex">\n')
 
 

@@ -381,6 +381,21 @@ def m_pdf_text(d: Path, text: str):
     p.write_bytes(data)
 
 
+def m_print_label_on_bar(d: Path, label_rgb=(0x44, 0x44, 0x44)):
+    """Print drops the halo (a print-only stroke:none) and the PDF has a chart-style
+    label drawn over a --chart-bar fill: #444 on #7a8aa0 is 2.77:1."""
+    edit(d / CSSF, PRINT_HIDE, PRINT_HIDE + "\n@media print{.chart text{stroke:none}}")
+    fitz = verify._fitz()
+    p = d / "adv" / PDF_NAME
+    doc = fitz.open(str(p))
+    page = doc[0]
+    page.draw_rect(fitz.Rect(60, 90, 260, 130), color=None, fill=(0x7a / 255, 0x8a / 255, 0xa0 / 255))
+    page.insert_text((70, 114), "label over a bar", fontsize=9, color=tuple(c / 255 for c in label_rgb))
+    data = doc.tobytes()
+    doc.close()
+    p.write_bytes(data)
+
+
 def m_log(d: Path, old: str, new: str):
     """Copy the real report_stats.log into the mutation dir with one edit; point M3 at it."""
     s = STATS_LOG.read_text(encoding="utf-8")
@@ -721,7 +736,7 @@ MUTATIONS = [
                          'href="https://www.sec.gov/wrong/ia040224.zip">ia040224.zip</a>'),
      [("D1", "link 'https://www.sec.gov/wrong")], False, []),
     ("data-intro-edited", "/data intro: one phrase changes on the page",
-     lambda d, sj: edit(d / DATA, "fifteen months or so", "fifteen months"),
+     lambda d, sj: edit(d / DATA, "41 were still there", "all were still there"),
      [("D1", "intro not rendered verbatim")], False, []),
     ("data-title", "/data <title> changed",
      lambda d, sj: edit(d / DATA, "<title>Data · Filings Trail</title>", "<title>Data</title>"),
@@ -764,7 +779,12 @@ MUTATIONS = [
     ("halo-fat", "the halo stroke-width is 8px",
      lambda d, sj: edit(d / CSSF, "stroke-width:3px", "stroke-width:8px"),
      [("K2", "stroke-width")], False, []),
-    # Print may drop the halo (it bloats the PDF); screen may not, in either theme.
+    # Print may drop the halo (it bloats the PDF and doubles the text layer), but then
+    # every label that sits on a filled shape in the PDF must clear the contrast floor.
+    ("halo-print-off-illegible", "print drops the halo and the PDF has a #444 label on a #7a8aa0 bar",
+     lambda d, sj: m_print_label_on_bar(d),
+     [("K2", "without the halo")], False, []),
+    # Screen may not drop it, in either theme.
     ("halo-screen-off", "an @media screen rule switches the halo off (stroke:none)",
      lambda d, sj: edit(d / CSSF, PRINT_HIDE, PRINT_HIDE + "\n@media screen{.chart text{stroke:none}}"),
      [("K2", "switched off inside @media screen")], False, []),

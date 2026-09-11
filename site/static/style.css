@@ -3,7 +3,7 @@
    The --chart-* names and values are an interface with charts.py: the chart
    SVGs reference them as var(--chart-*, <literal>). */
 :root {
-  --bg: #fcfbf9; --ink: #1a1a1a; --muted: #5c5852; --rule: #1a1a1a; --hair: #9a958d; --line: #dcd8d1;
+  --bg: #fcfbf9; --ink: #1a1a1a; --muted: #5c5852; --rule: #1a1a1a; --hair: #8c877f; --line: #dcd8d1;
   --chart-ink: #1a1a1a; --chart-ink-2: #444444; --chart-muted: #666666;
   --chart-bar: #7a8aa0; --chart-alert: #c05746; --chart-key: #3e5a78;
 }
@@ -15,13 +15,15 @@
   }
 }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* Percentages, not px: 17px and 18px at the browser's default 16px, and they
+   follow the reader's own font-size setting. */
 body {
   max-width: 36em; margin: 0 auto; padding: 0 1.25em;
   background: var(--bg); color: var(--ink);
-  font: 17px/1.6 Charter, "Bitstream Charter", "Sitka Text", Cambria, "Iowan Old Style", Georgia, serif;
+  font: 106.25%/1.6 Charter, "Bitstream Charter", "Sitka Text", Cambria, "Iowan Old Style", Georgia, serif;
   font-kerning: normal; font-variant-numeric: lining-nums; overflow-wrap: break-word;
 }
-@media (min-width: 40em) { body { font-size: 18px; } }
+@media (min-width: 40em) { body { font-size: 112.5%; } }
 h1, h2, h3 { line-height: 1.25; font-weight: 700; margin: 2em 0 .6em; }
 h1 { font-size: 1.55em; margin: 0 0 .45em; }
 @media (min-width: 40em) { h1 { font-size: 1.7em; } }
@@ -30,12 +32,18 @@ h3 { font-size: 1em; font-style: italic; font-weight: 400; }
 p, ul, ol { margin: 0 0 1em; }
 ul, ol { padding-left: 1.4em; }
 li { margin: .25em 0; }
+/* No one-word last lines where the browser supports it; others ignore it. */
+p, li, figcaption { text-wrap: pretty; }
 a {
   color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
   text-underline-offset: .2em; text-decoration-color: var(--hair);
 }
 a:hover { text-decoration-color: currentColor; }
 a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* A scroll box clips anything drawn outside it, and on phones it runs to the
+   screen edge: its own ring goes inside, and a link in the first column gets
+   4px of room on the left without moving the table. */
+.table-wrap:focus-visible, .fig-scroll:focus-visible, pre[tabindex]:focus-visible { outline-offset: -2px; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .84em; }
 code.hash { overflow-wrap: anywhere; word-break: break-all; }
 /* build.py marks hyphenated tokens in inline code: wrap at spaces, never at a dash. */
@@ -71,7 +79,10 @@ code.hash { overflow-wrap: anywhere; word-break: break-all; }
 .note { color: var(--muted); font-size: .9375em; }
 footer { margin: 3.5em 0 2.5em; padding-top: 1em; border-top: 1px solid var(--line); color: var(--muted); font-size: .875em; }
 footer a { white-space: nowrap; }
-.table-wrap { overflow-x: auto; margin: 1.5em 0 1.75em; }
+/* Smallest phones: the root footer's address goes on its own line rather than
+   the second line starting with the separator. */
+@media (max-width: 22.5em) { footer .sep { display: none; } footer .sep + a { display: block; } }
+.table-wrap { overflow-x: auto; margin: 1.5em 0 1.75em -4px; padding-left: 4px; }
 table {
   width: 100%; border-collapse: collapse;
   border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule);
@@ -82,16 +93,20 @@ th, td { padding: .45em 0 .45em 1.25em; text-align: left; vertical-align: baseli
 th:first-child, td:first-child { padding-left: 0; }
 thead th { border-bottom: 1px solid var(--rule); font-weight: 600; }
 th.num, td.num { text-align: right; white-space: nowrap; }
+/* A right-aligned column followed by a left-aligned one needs more than one gap. */
+th.num + th:not(.num), td.num + td:not(.num) { padding-left: 1.75em; }
 /* Smallest phones: the report's four-column tables fit without a sliver of scroll. */
 @media (max-width: 22.5em) { th, td { padding-left: 1em; } }
 td code { font-size: .92em; }
 td code.hash { display: block; min-width: 16ch; white-space: normal; }
-/* The file tables on /data: names and dates never break mid-token. On a phone
-   they scroll sideways; the file name stays put while the other columns move,
-   and the table runs to the screen edge so the cut shows there is more. */
-.files td { white-space: nowrap; }
-.files th:first-child, .files td:first-child { position: sticky; left: 0; background: var(--bg); padding-right: .75em; }
-@media (max-width: 39.99em) { .table-wrap.bleed { margin-right: -1.25em; } }
+/* The file tables on /data: names, dates and headers never break. On a phone
+   they scroll sideways; the file name (the row header) stays put while the
+   other columns move. */
+.files th, .files td { white-space: nowrap; }
+.files tbody th { font-weight: inherit; }
+/* left: -4px so the column, once stuck, also covers the scroll box's 4px of
+   focus-ring room (.table-wrap padding-left) instead of letting cells show there. */
+.files th:first-child, .files td:first-child { position: sticky; left: -4px; background: var(--bg); padding-right: .75em; }
 pre {
   margin: 1.5em 0 1.75em; padding: .65em 0; overflow-x: auto;
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
@@ -102,19 +117,36 @@ pre code { font-size: 1em; }
 figure { margin: 2em 0; }
 .fig-scroll { overflow-x: auto; }
 .fig-scroll svg { display: block; width: 100%; height: auto; min-width: 34rem; }
+/* Phones: a box that scrolls sideways runs to the screen edge, so the cut shows
+   there is more. build.py marks the tables that cannot fit (bleed); a chart
+   (34rem wide at least) and the one code block on /method are wider than the
+   text column below 36.6em. The pre's own font is .8125em, so its margin is
+   scaled to meet the body padding. */
+@media (max-width: 39.99em) { .table-wrap.bleed { margin-right: -1.25em; } }
+@media (max-width: 36.6em) {
+  .fig-scroll { margin-right: -1.25em; }
+  pre { margin-right: calc(-1.25em / .8125); }
+}
 /* Chart labels that sit on a bar or a baseline get a halo in the page colour. */
 .chart text { paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
 /* No halo in print: Chrome's PDF engine emits stroked text as Type3 glyph
-   outlines, one font per size, which took the PDF from 245 KB to 1.6 MB. */
+   outlines, one font per size (245 KB became 1.6 MB), and each outline carries
+   the text again, so every chart label reads twice in the PDF's text layer.
+   The one label that sits on a bar ("all registered advisers: 8.1%", drawn in
+   --chart-ink-2) is darkened in the print palette below instead; verify.py
+   check K2 measures every label that overlaps a filled shape in the PDF. */
 @media print { .chart text { stroke: none; } }
-/* Wide screens: charts break out of the text column so their text stays legible. */
-@media screen and (min-width: 64em) { .fig-scroll { margin: 0 -5em; } }
+/* Wide screens: charts break out of the text column so their text stays
+   legible. The left break is smaller so the chart's title, source note and
+   axis line up with the caption and text; the right side keeps room for the
+   long source line. */
+@media screen and (min-width: 64em) { .fig-scroll { margin: 0 -5em 0 -3.5em; } }
 figcaption { margin-top: .6em; color: var(--muted); font-size: .875em; line-height: 1.5; }
 @media print {
   :root {
     color-scheme: light;
     --bg: #fff; --ink: #000; --muted: #333; --rule: #000; --hair: #888; --line: #999;
-    --chart-ink: #1a1a1a; --chart-ink-2: #444444; --chart-muted: #666666;
+    --chart-ink: #1a1a1a; --chart-ink-2: #1a1a1a; --chart-muted: #666666;
     --chart-bar: #7a8aa0; --chart-alert: #c05746; --chart-key: #3e5a78;
   }
   @page { size: letter; margin: .75in; }

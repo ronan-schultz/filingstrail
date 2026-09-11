@@ -95,7 +95,7 @@
       "",
       "Everything here is built from the Form ADV extracts the SEC publishes each month for investment advisers. There are two each month: one for registered advisers, which carries the assets, headcount and client items a panel needs, and one for exempt reporting advisers, who file a truncated form.",
       "",
-      "The SEC's index lists only the most recent fifteen months or so of these files. Older editions are delisted rather than deleted, and as of September 10, 2026 they still resolve at their original URLs. A panel needs consecutive months, so the project keeps its own checksummed copy of every file and records each one below, whether it was found on the index or recovered from a delisted address.",
+      "On September 10, 2026 the SEC's index listed 16 of these files. Older editions are delisted, but most remain on the SEC's servers at their original addresses: of 42 delisted files requested that day, 41 were still there and one returned a 404. The project keeps its own checksummed copy of every file it has recovered and records each one below, with whether it came from the index or from a delisted address. A month with no row is a gap in this archive.",
       "",
       "Each file is classified by what it contains rather than what it is called, and dated by the latest filing inside it. The two can disagree: the registered-adviser file posted on September 2, 2025 holds the same roster as the one posted a month earlier, with no filing after July 31, 2025. A dagger (†) marks every file whose data does not advance past the previous file of the same kind.",
       "",
@@ -123,10 +123,11 @@
   },
 
   "halo": {
-    "_comment": "K2: chart labels get a background-coloured halo. The rule must reach the <text> of every inline chart, in every medium (not only print or dark).",
+    "_comment": "K2: chart labels get a background-coloured halo. The rule must reach the <text> of every inline chart on screen, in light and dark; a screen or theme rule that switches it off fails. Print may drop it only on the terms in print_without_halo (delete that key and any print override fails again): every text run in the work's PDF with at least min_overlap of its box over a filled, non-white shape must have at least min_contrast against that fill. Why print drops it: Chrome prints stroked text as Type3 glyph outlines (the PDF goes from 245 KB to 1.6 MB) that carry the text a second time, so each chart label reads twice in the PDF's text layer.",
     "paint_order_first": "stroke",
     "stroke_var": "--bg",
     "max_stroke_width_px": 4,
-    "linejoin": "round"
+    "linejoin": "round",
+    "print_without_halo": {"min_contrast": 4.5, "min_overlap": 0.25}
   }
 }

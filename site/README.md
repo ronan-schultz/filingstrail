@@ -194,7 +194,9 @@ ending in the file name, no file listed twice), and writes one table per entry i
 `data.sections`, newest file first. `source` `backfill` is shown as "delisted".
 The files in `data.panel_files` are set in bold, and their manifest sha256 must
 appear in `data.panel_checksums_in` (the report's `METHOD.md`), so the page and the
-report cannot disagree about which bytes were compared.
+report cannot disagree about which bytes were compared. `data.panel_note` is a
+phrase from the one intro paragraph that explains the bold; that paragraph gets the
+id `data.panel_note_id` and the panel links point at it for screen readers.
 
 A file is stale when its `data_through` is no later than the latest `data_through`
 among earlier-vintage files of the same variant: its data does not advance. Stale
@@ -208,14 +210,47 @@ file, and only then update `expected_stale` (and `checks/pages.json`, which
 
 Inline code wraps at its spaces but never at a hyphen inside a token (`build.py`
 marks those tokens `nobr`), so `--prior` or a file name is never split across
-lines. Chart labels get a page-coloured halo (`.chart text` in `style.css`) so a
-label over a bar or the dashed baseline stays legible in light, dark and print.
-In the PDF, Chrome embeds each stroked glyph as a Type3 outline, which takes the PDF
-from about 0.24 MB to about 1.6 MB. The site contract asks for the halo in print too,
-and check K2 in `verify.py` fails on any `@media` rule that would win the cascade and
-switch it off. So `@media print { .chart text { stroke: none; } }` would get the
-smaller file back, but only as a deliberate change to the contract, with K2 relaxed
-for print in the same change.
+lines. Dates and numeric ranges in prose ("2025-08-01", "2–5", "$25–100M") get the
+same treatment (`nobr_numbers` in `build.py`; code, `pre` and the chart SVGs are left
+alone), so a line never breaks at their dash.
+
+Chart labels get a page-coloured halo on screen (`.chart text` in `style.css`), so a
+label over a bar or the dashed baseline stays legible in light and dark. Print drops
+it (`@media print { .chart text { stroke: none; } }`): Chrome's PDF engine embeds
+each stroked glyph as a Type3 outline, one font per size, which takes the PDF from
+about 0.24 MB to about 1.6 MB, and those outlines carry the text a second time, so
+every chart label reads twice in the PDF's text layer (search, copy, screen readers).
+The halo did render on paper; what replaces it is contrast. The one label that sits
+on a bar, "all registered advisers: 8.1%", is drawn in `--chart-ink-2`, which the
+print palette darkens from `#444444` to `#1a1a1a` (2.77:1 on the `#7a8aa0` bar
+becomes 4.95:1). Without the halo the dashed baseline also runs under the foot of
+the "7%" label on the no-website chart; it stays readable.
+
+Check K2 in `verify.py` holds both halves: any screen or theme rule that switches
+the halo off fails; a print rule may, only because `checks/pages.json`
+`halo.print_without_halo` allows it, and then K2 opens the PDF, finds every text run
+with at least a quarter of its box over a filled, non-white shape, and fails if one
+is below 4.5:1 against that fill. Delete `print_without_halo` and any print override
+fails again. To restore the halo in print, delete the print rule (and, if wanted,
+the `--chart-ink-2` print override) and accept the larger PDF.
+
+On phones, a box that scrolls sideways runs to the right screen edge, so the cut
+shows there is more: the /data tables, any report table with a checksum column
+(`build.py` adds `bleed` to those), the charts and the code block on /method. Scroll
+boxes keep 4px of room on the left (and draw their own focus ring inside), so a
+focused link in a table's first column shows its whole ring. `text-wrap: pretty`
+keeps one-word last lines out of paragraphs where the browser supports it. Body text
+is set in percentages (17px and 18px at the default 16px), so a reader's own
+font-size setting applies.
+
+Accessibility details `build.py` adds: each chart's scroll box and SVG are named by
+the chart's own headline (the first `<text>` in the largest font) and the SVG is
+described by its figcaption; the /data file name is each row's `<th scope="row">`;
+the two panel-file links point with `aria-describedby` at the intro paragraph that
+says they are bold (`data.panel_note` finds it; the build fails unless exactly one
+paragraph matches). The PDF link has no `download` attribute, so it opens in the
+browser's viewer. /method and /data print their own address at the end (the
+masthead and footer do not print). The 404 page has no canonical link or `og:url`.
 
 ## Notes on headless Edge on Windows
 

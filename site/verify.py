@@ -27,7 +27,9 @@ Checks (dist mode)
   J  CSV: the firm-level CSV parses and reconciles to the gate counts
   K  chart colours: CSS variables used by inline charts are defined (light + dark)
   K2 chart-label halo: a .chart text {paint-order:stroke; stroke:var(--bg)...} rule reaches every label,
-     and no @media rule (print, dark, screen) that would win the cascade switches it off
+     and no @media rule (dark, screen) that would win the cascade switches it off; a print rule may,
+     only if checks/pages.json allows it (halo.print_without_halo) and every label that sits on a
+     filled shape in the PDF clears the contrast floor there
   H2 every link into the repository names the default branch and a path that exists in the repo
   N1 masthead on every page: wordmark -> /, nav[aria-label=Site] Work/Method/Data, aria-current,
      the root's <h1> is the wordmark, #work exists; no old header.site
@@ -1737,12 +1739,18 @@ def check_K(bundle: Bundle, works: list[dict], site: dict, R: Report) -> None:
         if w["page"] not in bundle.files:
             continue
         pg = bundle.page(w["page"])
-        light, dark = {}, {}
+        light, dark, prnt = {}, {}, {}
         for origin, css in page_css(bundle, pg):
             for sel, body, ctx in css_rules(css):
+                c = " ".join(ctx).lower()
                 for k, v in css_decls(body).items():
                     if k.startswith("--chart-"):
-                        (dark if is_dark_ctx(sel, ctx) else light)[k] = v.lower()
+                        # A print-only palette is its own medium, not the light theme:
+                        # it is reported below, and K2 measures what it prints.
+                        if "print" in c and "screen" not in c:
+                            prnt[k] = v.lower()
+                        else:
+                            (dark if is_dark_ctx(sel, ctx) else light)[k] = v.lower()
         charts = [s for s in svg_top(pg.root) if any(n.tag == "text" for n in s.iter())]
         used, nofallback, white = set(), set(), 0
         for s in charts:
@@ -1774,6 +1782,10 @@ def check_K(bundle: Bundle, works: list[dict], site: dict, R: Report) -> None:
         if white:
             warn.append(f"{white} opaque white fill(s) left in chart SVGs (background patch not removed?)")
         ok.append(f"{len(charts)} charts, variables used: {sorted(used)}")
+        diff = {k: v for k, v in prnt.items() if k in used and v != light.get(k)}
+        if diff:
+            ok.append("print palette differs from light: " + ", ".join(f"{k} {v} (light {light.get(k)})"
+                                                                     for k, v in sorted(diff.items())))
         (R.warn("K", w["page"], warn + ok) if warn else R.ok("K", f"{w['page']}: " + "; ".join(ok)
                                                                + "; all defined for light and dark"))
 
@@ -2911,17 +2923,42 @@ def check_halo(bundle: Bundle, works: list[dict], spec: dict, R: Report) -> None
                         rank = ("!important" in v, _specificity(one), order)
                         if k not in base_rank or rank >= base_rank[k]:
                             base_rank[k] = rank
-        f = []
+        f, print_off = [], []
+        pw = hs.get("print_without_halo")
         for ctx_s, one, k, v, rank in overrides:
-            # Print may drop the halo. Chrome's PDF engine emits stroked text as
-            # Type3 glyph outlines, one font per size (the PDF went from 245 KB
-            # to 1.6 MB), and on white paper the halo buys nothing. Screen, in
-            # both themes, still needs it.
-            if re.search(r"\bprint\b", ctx_s, re.I) and not re.search(r"\bscreen\b", ctx_s, re.I):
+            if not (breaks(k, v) and (k not in base_rank or rank >= base_rank[k])):
                 continue
-            if breaks(k, v) and (k not in base_rank or rank >= base_rank[k]):
-                f.append(f"halo switched off inside {ctx_s}: {one} {{{k}: {v}}} wins over the unwrapped rule; "
-                         f"the labels need the halo on screen, in light and dark")
+            # Print may drop the halo, but only on terms: Chrome's PDF engine emits
+            # stroked text as Type3 glyph outlines, one font per size (the PDF went
+            # from 245 KB to 1.6 MB) that also carry the text a second time, so
+            # every chart label reads twice in the PDF's text layer. Without the
+            # halo, every label that sits on a filled shape in the printed PDF must
+            # still clear the contrast floor in checks/pages.json (measured below).
+            # Screen, in both themes, always needs the halo.
+            if pw and re.search(r"\bprint\b", ctx_s, re.I) and not re.search(r"\bscreen\b", ctx_s, re.I):
+                print_off.append(f"{ctx_s}: {one} {{{k}: {v}}}")
+                continue
+            f.append(f"halo switched off inside {ctx_s}: {one} {{{k}: {v}}} wins over the unwrapped rule; "
+                     + ("the labels need the halo on screen, in light and dark" if pw else
+                        "the labels need the halo on screen and in print"))
+        print_note = ""
+        if print_off:
+            pdfs = sorted(r for r in bundle.files if fnmatch.fnmatch(r, w.get("pdf_glob", "")) and r.lower().endswith(".pdf"))
+            if not pdfs:
+                f.append(f"print drops the halo ({print_off[0]}) but there is no PDF ({w.get('pdf_glob')}) to measure "
+                         f"the printed labels in")
+            for prel in pdfs:
+                labs, err = pdf_labels_on_fills(bundle.files[prel], float(pw["min_overlap"]))
+                if err:
+                    f.append(f"{prel}: cannot measure printed labels: {err}")
+                    continue
+                low = [x for x in labs if x[4] < float(pw["min_contrast"])]
+                f += [f'{prel} p{p}: "{ascii_ctx(t, 40)}" #{tc} on #{fc} is {r:.2f}:1 without the halo '
+                      f'(print drops it: {print_off[0]}); needs >= {pw["min_contrast"]}:1' for p, t, tc, fc, r, _ in low]
+                print_note += (f"; print drops it ({len(print_off)} rule(s)), and in {prel} "
+                               + (", ".join(f'"{ascii_ctx(t, 30)}" #{tc} on #{fc} {r:.2f}:1' for p, t, tc, fc, r, _ in labs)
+                                  or "no label sits on a filled shape")
+                               + f" (floor {pw['min_contrast']}:1, overlap >= {float(pw['min_overlap']):.0%} of the label)")
         po = merged.get("paint-order", "").split()
         if not hits:
             f.append("no stylesheet rule reaches the <text> of every inline chart")
@@ -2944,8 +2981,65 @@ def check_halo(bundle: Bundle, works: list[dict], spec: dict, R: Report) -> None
         n_text = sum(1 for s in charts for n in s.iter() if n.tag == "text")
         desc = (f"{rel}: {sorted(set(hits))} {{paint-order:{merged.get('paint-order')}; stroke:{merged.get('stroke')}; "
                 f"stroke-width:{merged.get('stroke-width')}; stroke-linejoin:{merged.get('stroke-linejoin')}}} "
-                f"reaches {n_text} <text> in {len(charts)} charts; {hs['stroke_var']} defined light/dark/print")
+                f"reaches {n_text} <text> in {len(charts)} charts; {hs['stroke_var']} defined light/dark/print"
+                + (print_note or "; the halo applies in print too"))
         (R.fail("K2", f"{rel}: chart-label halo", f) if f else R.ok("K2", desc))
+
+
+def _srgb_lum(rgb) -> float:
+    def ch(v):
+        return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
+    r, g, b = rgb
+    return 0.2126 * ch(r) + 0.7152 * ch(g) + 0.0722 * ch(b)
+
+
+def pdf_labels_on_fills(data: bytes, min_overlap: float):
+    """Text runs in a PDF that sit on a filled, non-white shape (at least `min_overlap`
+    of the run's box over it), with their contrast against it: [(page, text, text hex,
+    fill hex, ratio, overlap)], error. Link underlines (a few % of a run) and page
+    white do not count; gray and RGB fills are read, other colour spaces are an error."""
+    try:
+        fitz = _fitz()
+        doc = fitz.open(stream=data, filetype="pdf")
+    except Exception as e:  # noqa
+        return [], f"{type(e).__name__}: {e}"
+    out = []
+    try:
+        for pno, page in enumerate(doc, 1):
+            fills = []
+            for d in page.get_drawings():
+                c = d.get("fill")
+                if c is None or (d.get("fill_opacity") or 1) < 0.5:
+                    continue
+                c = tuple(c)
+                if len(c) == 1:
+                    c = c * 3
+                if len(c) != 3:
+                    return out, f"page {pno}: a fill in a {len(c)}-component colour space"
+                if min(c) > 0.95:
+                    continue
+                fills.append((fitz.Rect(d["rect"]), c))
+            if not fills:
+                continue
+            for b in page.get_text("dict")["blocks"]:
+                for ln in b.get("lines", []):
+                    for s in ln["spans"]:
+                        r = fitz.Rect(s["bbox"])
+                        if not s["text"].strip() or r.is_empty:
+                            continue
+                        col = s["color"]
+                        tc = (((col >> 16) & 255) / 255, ((col >> 8) & 255) / 255, (col & 255) / 255)
+                        for fr, fc in fills:
+                            share = (r & fr).get_area() / r.get_area() if not (r & fr).is_empty else 0
+                            if share < min_overlap:
+                                continue
+                            la, lb = _srgb_lum(tc), _srgb_lum(fc)
+                            ratio = (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+                            out.append((pno, s["text"].strip(), f"{col:06x}",
+                                        "".join(f"{round(v * 255):02x}" for v in fc), ratio, share))
+    finally:
+        doc.close()
+    return out, None
 
 
 def git_tracked(repo: Path) -> set[str] | None:

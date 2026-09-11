@@ -52,7 +52,7 @@
           "drop": ["See the date trap below."],
           "heading": "Sources",
           "after": "Method",
-          "note": "Reproduced from `METHOD.md`, which also carries the field mapping and the full list of limits."
+          "note": "Reproduced from `METHOD.md`; the field mapping and the full list of limits are on the [Method](/method#adv) page."
         }
       ],
       "downloads": {
@@ -107,6 +107,8 @@
     ],
     "source_labels": {"index": "index", "backfill": "delisted"},
     "panel_files": ["ia09012026-registered.zip", "ia09022025.xlsx"],
+    "panel_note": "are in bold",
+    "panel_note_id": "panel-files",
     "panel_checksums_in": "../adv-report/METHOD.md",
     "expected_stale": ["ia09022025.xlsx"],
     "stale_mark": "†",
