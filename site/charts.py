@@ -80,20 +80,20 @@ CHARTS = {"new_registrants": "nr-", "conversion_by_headcount": "hc-"}
 GATE = {
     "window": ("2025-08-01", "2026-08-31", 13),
     "entered": 1693, "exited": 903, "net": 790,
-    "cohort": 628, "cohort_asof": "2025-07-31",
+    "cohort": 288, "cohort_asof": "2025-07-31",
     "validated": 1689, "validated_pct": "99.8",
     "reregistrations": 4,
     "nosite_validated_pct": "15.9",
-    "site_no": (154, "39.6"),    # no website at t0: n, converted %
-    "site_yes": (474, "32.1"),   # had a website at t0
+    "site_no": (89, "65.2"),    # no website at t0: n, converted %
+    "site_yes": (199, "66.3"),   # had a website at t0
     # label on the chart, label in report_stats.py, n, converted %, deregistered %
-    "bands": [("1", "1 employee", 128, "25.8", "32.8"),
-              ("2-5", "2-5 employees", 265, "44.5", "18.1"),
-              ("6-20", "6-20 employees", 134, "31.3", "17.2"),
-              ("21+", "21+ employees", 101, "19.8", "4.0")],
-    "z_headcount": ("3.58", "0.0003"),
-    "z_website": ("1.72", "0.086"),
-    "z_dereg": ("3.25", "0.0012"),
+    "bands": [("1", "1 employee", 63, "46.0", "31.7"),
+              ("2-5", "2-5 employees", 151, "72.2", "14.6"),
+              ("6-20", "6-20 employees", 50, "68.0", "20.0"),
+              ("21+", "21+ employees", 24, "75.0", "0.0")],
+    "z_headcount": ("3.64", "0.0003"),
+    "z_website": ("-0.19", "0.85"),
+    "z_dereg": ("2.88", "0.0039"),
 }
 
 # Figures on the no-website chart that are not gate rows. Each is asserted to
@@ -567,13 +567,13 @@ def cross_check_stats():
     check(G, "entered / exited / net (REPORT.md)", s, "present" if in_report(s) else "MISSING",
           ok=in_report(s))
 
-    asof, tracked = grab(r"THE PANEL: \$0-AUM COHORT AS OF (\S+), TRACKED (\d+) MONTHS",
+    asof, tracked = grab(r"THE PANEL: NEW \$0-AUM REGISTRANTS AS OF (\S+), TRACKED (\d+) MONTHS",
                          log, "panel header")
     n0, = grab(r"^cohort size \(\$0 AUM at t0\) \.+ ([\d,]+)$", log, "cohort size")
     check(G, "$0-AUM cohort (report_stats)",
           f"{GATE['cohort']:,} as of {GATE['cohort_asof']}, tracked {months} months",
           f"{n0} as of {asof}, tracked {tracked} months")
-    s = f"The roster as of July 31, 2025 had {GATE['cohort']:,} registered advisers reporting $0"
+    s = f"{GATE['cohort']:,} of them were not on the roster thirteen months earlier"
     check(G, "$0-AUM cohort (REPORT.md)", s, "present" if in_report(s) else "MISSING",
           ok=in_report(s))
 
@@ -639,11 +639,11 @@ def cross_check_stats():
               ok=in_report(rep))
 
     ztest("CONVERSION: headcount", "headcount (conversion)", "z_headcount",
-          "z = 3.58, p = 0.0003")
+          "z = 3.64, p = 0.0003")
     ztest("CONVERSION: website (the null result)", "website (conversion)", "z_website",
-          "z = 1.72, p = 0.086")
+          "z = -0.19, p = 0.85")
     ztest("DEREGISTRATION: headcount", "deregistration (headcount)", "z_dereg",
-          "z = 3.25, p = 0.0012")
+          "z = 2.88, p = 0.0039")
 
     for s in FORBIDDEN:
         if s in log:
@@ -723,7 +723,7 @@ def cross_check_svg_text(raw_svgs, fragments, bands_log, baseline_log):
                        + [label_for(d, n) for _, _, n, _, d in GATE["bands"]])
             check(g, "bar labels: converted x4 then deregistered x4", " ".join(exp_bar),
                   " ".join(bar))
-            title = (f"{GATE['cohort']:,} SEC-registered advisers reporting $0 AUM as of "
+            title = (f"{GATE['cohort']:,} new SEC-registered advisers reporting $0 AUM as of "
                      f"{human(GATE['cohort_asof'])}, tracked to {human(w1)}")
             check(g, "title: cohort, as-of and end dates", title,
                   next((t for t in other if "SEC-registered advisers reporting" in t), "(none)"))
@@ -736,7 +736,7 @@ def cross_check_svg_text(raw_svgs, fragments, bands_log, baseline_log):
             check(g, "footnote test statistic", foot,
                   next((t[t.find("z="):] for t in other if "z=" in t), "(none)"),
                   ok=any(t.endswith(foot) and "between 1 and 2-5 employees" in t for t in other))
-            d21 = f"{float(GATE['bands'][3][4]):.0f}% deregistration rate"
+            d21 = f"The 21+ band is {GATE['bands'][3][2]} firms"
             check(g, f"footnote 21+ band: {d21!r}", "present",
                   "present" if any(d21 in t for t in other) else "MISSING")
             check(g, "legend", "reported assets thirteen months later | deregistered", " | ".join(legend))

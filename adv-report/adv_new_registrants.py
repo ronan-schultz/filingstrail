@@ -2,7 +2,7 @@
 """
 New RIA registrants from SEC Form ADV monthly extracts.
 
-Takes two monthly *registered adviser* files (current and ~12 months prior),
+Takes two monthly *registered adviser* files (current and an earlier vintage),
 diffs them on Organization CRD# to isolate firms that appear now and did not
 appear then, cross-validates that diff against each firm's SEC status
 effective date, and emits a CSV plus a chart.

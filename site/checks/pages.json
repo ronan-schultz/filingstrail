@@ -34,7 +34,7 @@
     ],
     "in_progress_label": "In progress",
     "works": [
-      {"title": "Two-thirds of pre-launch RIAs haven’t launched thirteen months later", "href": "/adv",
+      {"title": "Two-thirds of pre-launch RIAs had launched thirteen months later", "href": "/adv",
        "descriptor": "Form ADV new-registrant panel, August 2025 to August 2026."},
       {"title": "Replication on an earlier cohort", "status": "in_progress",
        "descriptor": "The new-registrant panel rerun on an earlier $0-AUM cohort."},

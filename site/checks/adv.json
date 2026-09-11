@@ -21,8 +21,8 @@
     },
     {
       "row": "$0-AUM cohort",
-      "value": "628 firms, roster as of July 31 2025",
-      "must_contain": ["The roster as of July 31, 2025 had 628 registered advisers reporting $0 in AUM"]
+      "value": "288 new registrants of the 628 firms at $0 on the July 31 2025 roster",
+      "must_contain": ["The roster as of July 31, 2025 had 628 registered advisers reporting $0 in AUM", "288 of them were not on the roster thirteen months earlier"]
     },
     {
       "row": "Validated new registrations",
@@ -41,33 +41,33 @@
     },
     {
       "row": "Website split",
-      "value": "39.6% (n=154) no site vs 32.1% (n=474) with one",
-      "must_contain": ["39.6% (n=154)", "32.1% for firms that had one (n=474)"]
+      "value": "65.2% (n=89) no site vs 66.3% (n=199) with one",
+      "must_contain": ["65.2% (n=89)", "66.3% for firms that had one (n=199)"]
     },
     {
       "row": "Headcount bands",
-      "value": "1: n=128, 25.8% / 32.8% | 2-5: n=265, 44.5% / 18.1% | 6-20: n=134, 31.3% / 17.2% | 21+: n=101, 19.8% / 4.0% (converted / deregistered)",
+      "value": "1: n=63, 46.0% / 31.7% | 2-5: n=151, 72.2% / 14.6% | 6-20: n=50, 68.0% / 20.0% | 21+: n=24, 75.0% / 0.0% (converted / deregistered)",
       "table": {
         "first_header_startswith": "Employees",
         "header": ["Employees*", "n", "Converted", "Deregistered"],
         "rows": [
-          ["1", "128", "25.8%", "32.8%"],
-          ["2-5", "265", "44.5%", "18.1%"],
-          ["6-20", "134", "31.3%", "17.2%"],
-          ["21+", "101", "19.8%", "4.0%"]
+          ["1", "63", "46.0%", "31.7%"],
+          ["2-5", "151", "72.2%", "14.6%"],
+          ["6-20", "50", "68.0%", "20.0%"],
+          ["21+", "24", "75.0%", "0.0%"]
         ]
       }
     },
     {
       "row": "Tests",
-      "value": "headcount z=3.58 p=0.0003 | website z=1.72 p=0.086 | deregistration z=3.25 p=0.0012",
+      "value": "headcount z=3.64 p=0.0003 | website z=-0.19 p=0.85 | deregistration z=2.88 p=0.0039",
       "units": [
-        {"name": "headcount (conversion)", "unit": "clause", "all": ["z = 3.58, p = 0.0003", "conversion"]},
-        {"name": "deregistration", "unit": "clause", "all": ["z = 3.25", "p = 0.0012", "deregistration"]},
-        {"name": "website", "unit": "sentence", "all_re": ["z = 1\\.72, p = 0\\.086(?!\\d)"]}
+        {"name": "headcount (conversion)", "unit": "clause", "all": ["z = 3.64, p = 0.0003", "conversion"]},
+        {"name": "deregistration", "unit": "clause", "all": ["z = 2.88", "p = 0.0039", "deregistration"]},
+        {"name": "website", "unit": "sentence", "all_re": ["z = -0\\.19, p = 0\\.85(?!\\d)"]}
       ],
-      "allowed_z": ["3.58", "3.25", "1.72"],
-      "allowed_p": ["0.0003", "0.0012", "0.086"]
+      "allowed_z": ["3.64", "2.88", "-0.19", "0.19"],
+      "allowed_p": ["0.0003", "0.0039", "0.85"]
     }
   ],
 
@@ -85,7 +85,7 @@
       "asset": "assets/adv/conversion_by_headcount.svg",
       "identify_text_any": ["Headcount sorts", "employees reported on Form ADV"],
       "identify_attr_any": ["conversion_by_headcount", "conversion-by-headcount", "headcount"],
-      "text_contains": ["n=128", "n=265", "n=134", "n=101", "z=3.58, p=0.0003"],
+      "text_contains": ["n=63", "n=151", "n=50", "n=24", "z=3.64, p=0.0003"],
       "a_line_contains_all": []
     }
   ],
@@ -114,6 +114,10 @@
     "1,573",
     "92.9%",
     "120 re-registrations",
-    "16.2%"
+    "16.2%",
+    "haven't launched",
+    "haven’t launched",
+    "one-third signal",
+    "They mostly don"
   ]
 }

@@ -1,4 +1,4 @@
-# Two-thirds of pre-launch RIAs haven't launched thirteen months later
+# Two-thirds of pre-launch RIAs had launched thirteen months later
 
 There is a state a registered investment adviser can be in where it exists entirely on
 paper. It has a CRD number, an approved SEC registration and a filed brochure. It has no
@@ -27,26 +27,32 @@ programs I can't speak to.
 
 I built the list. Then I checked whether the firms on it become customers.
 
-## They mostly don't
+## The new ones mostly launch
 
-The roster as of July 31, 2025 had 628 registered advisers reporting $0 in AUM. Because the
-same file is published every month, that cohort can be followed rather than described.
-Thirteen months later:
+The roster as of July 31, 2025 had 628 registered advisers reporting $0 in AUM. 288 of them
+were not on the roster thirteen months earlier: new registrants, found by the same diff run
+backwards. Because the same file is published every month, that cohort can be followed
+rather than described. Thirteen months later:
 
-- **117 (18.6%)** are no longer SEC-registered at all
-- **213 (33.9%)** are still registered and now report assets
-- **298 (47.5%)** are still registered and still report $0
+- **52 (18.1%)** are no longer SEC-registered at all
+- **190 (66.0%)** are still registered and now report assets
+- **46 (16.0%)** are still registered and still report $0
 
-Two-thirds of the cohort, 415 firms or 66.1%, either left the registered rolls or were
-sitting in exactly the same state thirteen months on. Among the firms that survived, 41.7%
-converted. The ones that did are not marginal businesses. Their median reported AUM in
-August 2026 is $183.4M.
+Two-thirds of the new registrants, 190 firms, were reporting assets thirteen months on.
+Among the firms that survived, 80.5% converted. The ones that did are not marginal
+businesses. Their median reported AUM in August 2026 is $200.4M.
+
+The other 340 are why the filter matters. They were already registered in June 2024 and
+still reporting $0 in July 2025. Thirteen months later 23 of them, 6.8%, reported assets,
+and 252, 74.1%, still reported $0. Pooled, the 628 converted at 33.9%. A list filtered on
+$0 AUM alone is mostly firms that were never going to buy.
 
 This is one cohort, one vintage, thirteen months. It is not a general law about advisers,
 and a cohort drawn in a different year could behave differently. It is enough to say that
-a new-registrant list filtered on $0 assets is roughly one-third signal over a thirteen-month
-horizon. A campaign run against the unfiltered version spends most of its effort on firms
-that will not have become customers by the time it ends.
+a new-registrant list filtered on $0 assets is roughly two-thirds signal over a
+thirteen-month horizon, and the same filter without the registration date is roughly
+one-third. A campaign run against the unfiltered version spends most of its effort on
+firms that will not have become customers by the time it ends.
 
 ## The website is not the qualifier
 
@@ -54,51 +60,47 @@ The obvious way to sort the list is the thing that made it interesting: a firm w
 website looks less finished, so it should be earlier in its build-out and more likely to
 be shopping.
 
-That is not what the data shows. Among the 628, firms with no website in 2025 converted
-at 39.6% (n=154) against 32.1% for firms that had one (n=474). That points the opposite
-direction from the intuition, and it does not clear conventional significance (z = 1.72,
-p = 0.086). Website presence does not sort this cohort.
+That is not what the data shows. Among the 288, firms with no website in July 2025
+converted at 65.2% (n=89) against 66.3% for firms that had one (n=199). The gap is about a
+point, and nowhere near conventional significance (z = -0.19, p = 0.85). Website presence
+does not sort this cohort.
 
-Headcount does. Form ADV Item 5.A is a count of employees, and among the same 628 firms
+Headcount does. Form ADV Item 5.A is a count of employees, and among the same 288 firms
 it separates the outcomes cleanly:
 
 | Employees (July 2025) | n | Converted | Deregistered |
 |---|---|---|---|
-| 1 | 128 | 25.8% | 32.8% |
-| 2–5 | 265 | **44.5%** | 18.1% |
-| 6–20 | 134 | 31.3% | 17.2% |
-| 21+ | 101 | 19.8% | 4.0% |
+| 1 | 63 | 46.0% | 31.7% |
+| 2–5 | 151 | **72.2%** | 14.6% |
+| 6–20 | 50 | 68.0% | 20.0% |
+| 21+ | 24 | 75.0% | 0.0% |
 
-A firm with two to five employees and no assets converts at 44.5%. A solo firm in the
-same state converts at 25.8% and deregisters at 32.8%. On conversion that gap is 18.7
-points (z = 3.58, p = 0.0003); on deregistration it is 14.7 points (z = 3.25,
-p = 0.0012).
+A new firm with two to five employees and no assets converts at 72.2%. A solo firm in the
+same state converts at 46.0% and deregisters at 31.7%. On conversion that gap is 26.2
+points (z = 3.64, p = 0.0003); on deregistration it is 17.2 points (z = 2.88,
+p = 0.0039).
 
-![Conversion and deregistration rates by July 2025 headcount for the 628 advisers reporting $0 AUM. Firms with 2-5 employees convert at 45% and deregister at 18%; solo registrants convert at 26% and deregister at 33%.](conversion_by_headcount.png)
+![Conversion and deregistration rates by July 2025 headcount for the 288 new registrants reporting $0 AUM. Firms with 2-5 employees convert at 72% and deregister at 15%; solo registrants convert at 46% and deregister at 32%.](conversion_by_headcount.png)
 
-The 21+ row is a different animal and should not be read as failure. A large firm
-reporting $0 in regulatory AUM is usually reporting something structural: a sub-adviser,
-or an entity whose assets sit elsewhere. Not a business that hasn't opened. Its 4.0%
-deregistration rate is the tell. These firms are not pre-launch and do not belong in the
-list at all.
+The 21+ row is small, 24 firms, and none of them deregistered; read it as directional.
 
 Crossing the two signals gives the screen, though the cells get small enough that the
 rates should be read as directional:
 
 | July 2025 profile | n | Converted | Deregistered |
 |---|---|---|---|
-| No website, 2+ employees | 114 | **46.5%** | 10.5% |
-| Website, 2+ employees | 386 | 32.9% | 16.3% |
-| Website, 1 employee | 88 | 28.4% | 30.7% |
-| No website, 1 employee | 40 | 20.0% | 37.5% |
+| No website, 2+ employees | 67 | **74.6%** | 9.0% |
+| Website, 2+ employees | 158 | 70.3% | 16.5% |
+| Website, 1 employee | 41 | 51.2% | 24.4% |
+| No website, 1 employee | 22 | 36.4% | 45.5% |
 
 The best cell on the list is the one that looks least finished: no website, but people on
-the payroll. The worst is the solo registrant with no website, which converts at 20% and
-disappears at 37.5%. Payroll separates a firm that is being built from a registration
+the payroll. The worst is the solo registrant with no website, which converts at 36.4% and
+disappears at 45.5%. Payroll separates a firm that is being built from a registration
 someone filed and left.
 
-Of the 154 with $0 AUM and no website in 2025, 27 deregistered, 44 acquired a website,
-and 83 still reported none in August 2026.
+Of the 89 with $0 AUM and no website in July 2025, 16 deregistered, 41 acquired a website,
+and 32 still had none in August 2026.
 
 ## Sizing it
 
@@ -130,6 +132,14 @@ in the second: 1,693 entered, 903 exited, net +790, which reconciles exactly.
 I dated each file by the latest filing it contains. The September 2025 file holds the
 same 16,359 firms as the August one and nothing filed after July 31, 2025. It is the July
 roster, republished. The window runs thirteen months, August 1, 2025 to August 31, 2026.
+
+The panel adds a third extract, published July 1, 2024, whose latest filing is June 30,
+2024: thirteen months before the July roster, the same distance as the follow-up. A firm
+reporting $0 on the July 2025 roster that is absent from it is a new registrant and in the
+panel. The 340 that are on it are shown for comparison and never pooled in. Converted
+means still on the registered roster at August 31, 2026 and reporting assets. Deregistered
+means absent from that roster, which covers closing, merging and moving to state
+registration alike.
 
 "Entered the SEC's registered rolls" is not the same as "new firm," and the extract
 cannot tell the two apart. A large share of these are established state-registered

@@ -26,9 +26,9 @@
   "works": [
     {
       "slug": "adv",
-      "title": "Two-thirds of pre-launch RIAs haven't launched thirteen months later",
+      "title": "Two-thirds of pre-launch RIAs had launched thirteen months later",
       "descriptor": "Form ADV new-registrant panel, August 2025 to August 2026.",
-      "description": "A thirteen-month panel of the SEC-registered advisers that reported $0 in assets under management, built from monthly Form ADV extracts.",
+      "description": "A thirteen-month panel of newly SEC-registered advisers that reported $0 in assets under management, built from monthly Form ADV extracts.",
       "date_label": "September 2026",
       "date_iso": "2026-09",
       "source_md": "../adv-report/REPORT.md",

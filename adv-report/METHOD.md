@@ -11,9 +11,12 @@ Both files come from the SEC's monthly Form ADV extract index:
 |---|---|---|---|---|---|
 | Current | [`ia09012026-registered.zip`](https://www.sec.gov/files/investment/data/other/information-about-registered-investment-advisers-exempt-reporting-advisers/ia09012026-registered.zip) | `2302e3ea00819b40f9f595dca53925137e9a6efacbdbfb8d912e66780c92601e` | 17,149 | 448 | 2026-08-31 |
 | Prior | [`ia09022025.xlsx`](https://www.sec.gov/files/investment/data/information-about-registered-investment-advisers-exempt-reporting-advisers/ia09022025.xlsx) | `977d83fdd67acdc464d30d892fe1a839fae2d8d6a47661ecb7ec53bd0e7c312c` | 16,359 | 448 | 2025-07-31 |
+| Look-back | [`ia070124.zip`](https://www.sec.gov/files/investment/data/information-about-registered-investment-advisers-exempt-reporting-advisers/ia070124.zip) | `790f991509046dacf7943906c1f04237ca6386de679b8d93235206b20af2a1b4` | 15,754 | 461 | 2024-06-30 |
 
-Downloaded 2026-09-07 with a `User-Agent` identifying the requester, per SEC policy.
-Both checksums re-verified 2026-09-10 against fresh downloads by `archive/fetch_adv.py`.
+Current and prior downloaded 2026-09-07 with a `User-Agent` identifying the requester, per
+SEC policy; both checksums re-verified 2026-09-10 against fresh downloads by
+`archive/fetch_adv.py`, which fetched the look-back file the same day. The look-back file
+decides which $0-AUM firms on the prior roster are new registrants, for the panel.
 "Data through" is the latest ADV filing date inside each file, which is not the date
 in its name. See the date trap below.
 
@@ -141,3 +144,8 @@ Top states: NY 199, CA 171, FL 135, TX 93, IL 63, MA 50, NJ 39, OH 38, PA 38, CT
    and deregistered between the two dates are invisible.
 6. Umbrella registrations mean one CRD can cover multiple relying advisers, so the
    firm count is not a count of legal entities.
+7. **The panel counts new registrants only.** Of the 628 firms reporting $0 on the
+   July 31, 2025 roster, the 288 absent from the June 30, 2024 roster are the panel; the
+   340 already registered are a different population (they converted at 6.8%) and are
+   never pooled in. "Deregistered" means absent from the August 31, 2026 registered
+   roster: closing, merging and moving to state registration look the same.

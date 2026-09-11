@@ -16,6 +16,7 @@ import pandas as pd
 
 CUR = "data/ia09012026-registered.zip"
 PRI = "data/ia09022025.xlsx"
+PRE = "data/ia070124.zip"   # roster thirteen months before t0: who was already registered
 
 spec = importlib.util.spec_from_file_location("adv", Path(__file__).parent / "adv_new_registrants.py")
 adv = importlib.util.module_from_spec(spec)
@@ -55,7 +56,7 @@ print(f"exited ........................... {exited:,}")
 assert len(new) - exited == len(cur) - len(pri)
 print("entered - exited == net .......... OK")
 
-rule("2. BASELINE: ALL REGISTERED ADVISERS, 2026-09-01")
+rule("2. BASELINE: ALL REGISTERED ADVISERS, ROSTER THROUGH 2026-08-31")
 print(f"no website (Item 1.I = N) ........ {pct(int((~cur['_site']).sum()), len(cur))}")
 print(f"median reported AUM .............. ${cur['_aum'].median():,.0f}")
 print(f"median employees ................. {cur['_emp'].median():.0f}")
@@ -104,14 +105,45 @@ print(f"cutting on the filename date instead would call {int((eff < file_cut).su
       f"re-registrations, {misread} of them effective {cut:%Y-%m-%d}..{file_cut - pd.Timedelta(days=1):%Y-%m-%d}")
 
 # ------------------------------------------------------------------ the panel
-rule(f"5. THE PANEL: $0-AUM COHORT AS OF {pri_thru:%Y-%m-%d}, TRACKED {months} MONTHS")
-z = pri[pri["_aum"] == 0].copy()
+# The panel is the $0-AUM firms on the t0 roster that were NOT on the roster
+# thirteen months earlier: new registrants, found by the same CRD diff as the
+# 1,693, looking back instead of forward. Firms registered before that and
+# still reporting $0 are a different population (sub-advisers, structural $0
+# reporters); they are printed alongside for comparison, never pooled in.
+rule(f"5. THE PANEL: NEW $0-AUM REGISTRANTS AS OF {pri_thru:%Y-%m-%d}, TRACKED {months} MONTHS")
+pre = prep(adv.load_path(PRE))
+pre_thru = pd.to_datetime(pre["Latest ADV Filing Date"], errors="coerce", format="mixed").max()
+back = (pri_thru.year - pre_thru.year) * 12 + (pri_thru.month - pre_thru.month)
+print(f"look-back roster data through .... {pre_thru:%Y-%m-%d} ({back} months before t0)")
+assert back == months, "look-back and follow-up windows must be the same length"
 m = cur.set_index("_crd")
-f = m.reindex(z["_crd"])
-z["_alive"] = f["_aum"].notna().values
-z["_aum26"] = f["_aum"].values
-z["_site26"] = f["_site"].values
-z["_converted"] = (z["_aum26"] > 0).fillna(False)
+
+
+def outcomes(df):
+    f = m.reindex(df["_crd"])
+    df = df.copy()
+    df["_alive"] = f["_aum"].notna().values
+    df["_aum26"] = f["_aum"].values
+    df["_site26"] = f["_site"].values
+    df["_converted"] = (df["_aum26"] > 0).fillna(False)
+    return df
+
+
+zero = pri[pri["_aum"] == 0]
+is_new = ~zero["_crd"].isin(set(pre["_crd"]))
+z = outcomes(zero[is_new])
+est = outcomes(zero[~is_new])
+print(f"$0 AUM on the t0 roster .......... {len(zero):,}")
+print(f"  new since {pre_thru:%Y-%m-%d} .......... {len(z):,}   <- the panel")
+print(f"  registered before then ......... {len(est):,}   (comparison only)")
+for nm, s in (("new registrants (the panel)", z), ("registered before (comparison)", est)):
+    d_, c_ = int((~s["_alive"]).sum()), int(s["_converted"].sum())
+    st_ = int((s["_alive"] & (s["_aum26"] == 0)).sum())
+    print(f"  {nm:<32} n={len(s):>4}  converted {pct(c_, len(s))}  "
+          f"dereg {pct(d_, len(s))}  still $0 {pct(st_, len(s))}")
+print(f"  pooled, as a $0-only list would be n={len(zero):>4}  converted "
+      f"{pct(int(z['_converted'].sum() + est['_converted'].sum()), len(zero))}")
+print()
 
 dereg = int((~z["_alive"]).sum())
 conv = int(z["_converted"].sum())
@@ -126,8 +158,8 @@ print(f"never became a customer (dereg + still $0) ... "
       f"{pct(dereg + stuck, len(z))}")
 print(f"conversion among survivors ....... {conv / (len(z) - dereg) * 100:.1f}%")
 
-print("\nthe 154 with $0 AUM and no website at t0:")
 n0 = z[~z["_site"]]
+print(f"\nthe {len(n0)} with $0 AUM and no website at t0:")
 print(f"  deregistered ................... {int((~n0['_alive']).sum()):,}")
 alive0 = n0[n0["_alive"]]
 print(f"  still registered ............... {len(alive0):,}")
@@ -190,6 +222,7 @@ def ztest(a, b, la, lb, what):
     print(f"    {la:<26} {pa * 100:>5.1f}%  (n={na:,})")
     print(f"    {lb:<26} {pb * 100:>5.1f}%  (n={nb:,})")
     print(f"    difference {(pa - pb) * 100:+.1f}pp   z={zs:.2f}   p={pv:.4f}\n")
+    return zs, pv
 
 
 EMP_BANDS = [(0, 2, "1"), (2, 6, "2-5"), (6, 21, "6-20"), (21, 1e9, "21+")]
@@ -231,22 +264,22 @@ def headcount_chart(out="conversion_by_headcount.png"):
     ax.set_xlabel(f"employees reported on Form ADV Item 5.A, {pri_thru:%B %Y} roster",
                   fontsize=9, labelpad=8)
     ax.set_ylabel("share of cohort")
-    ax.set_ylim(0, 52)
+    ax.set_ylim(0, 100)
     ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0f}%")
     ax.set_title("Headcount sorts the pre-launch cohort; website presence does not\n"
-                 f"{len(z):,} SEC-registered advisers reporting $0 AUM as of "
+                 f"{len(z):,} new SEC-registered advisers reporting $0 AUM as of "
                  f"{pri_thru:%b} {pri_thru.day}, {pri_thru.year}, tracked to "
                  f"{cur_thru:%b} {cur_thru.day}, {cur_thru.year}",
                  loc="left", fontsize=11.5)
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="x", length=0)
-    ax.legend(frameon=False, fontsize=9, loc="upper right")
+    ax.legend(frameon=False, fontsize=9, loc="upper left")
+    zc, pc = CONV_TEST
     ax.text(0, -0.315,
-            "Source: SEC Form ADV monthly registered-adviser extracts. Conversion gap "
-            "between 1 and 2-5 employees: z=3.58, p=0.0003.\nThe 21+ band is not a "
-            "failure rate: firms that large report $0 for structural reasons "
-            "rather than because they are pre-launch, which its 4% "
-            "deregistration rate shows.",
+            "Source: SEC Form ADV monthly registered-adviser extracts. New: not on the "
+            f"{adv.human(pre_thru)} roster. Conversion gap between 1 and 2-5 employees: "
+            f"z={zc:.2f}, p={pc:.4f}.\nThe 21+ band is {rows[-1][1]} firms; read it as "
+            "directional.",
             transform=ax.transAxes, fontsize=7.5, color="#666", linespacing=1.6)
     fig.tight_layout()
     fig.savefig(out, bbox_inches="tight")
@@ -255,8 +288,8 @@ def headcount_chart(out="conversion_by_headcount.png"):
 
 solo = z["_emp"] < 2
 staffed = (z["_emp"] >= 2) & (z["_emp"] <= 5)
-ztest(z.loc[staffed, "_converted"], z.loc[solo, "_converted"],
-      "2-5 employees", "1 employee", "CONVERSION: headcount")
+CONV_TEST = ztest(z.loc[staffed, "_converted"], z.loc[solo, "_converted"],
+                  "2-5 employees", "1 employee", "CONVERSION: headcount")
 ztest(z.loc[solo, "_alive"].pipe(lambda s: ~s), z.loc[staffed, "_alive"].pipe(lambda s: ~s),
       "1 employee", "2-5 employees", "DEREGISTRATION: headcount")
 ztest(z.loc[~z["_site"], "_converted"], z.loc[z["_site"], "_converted"],
