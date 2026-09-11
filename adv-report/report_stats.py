@@ -216,7 +216,7 @@ def headcount_chart(out="conversion_by_headcount.png"):
     w = 0.38
     fig, ax = plt.subplots(figsize=(8.5, 4.6), dpi=200)
     b1 = ax.bar([i - w / 2 for i in x], [r[2] for r in rows], w,
-                label="reported assets a year later", color="#7A8AA0")
+                label="reported assets thirteen months later", color="#7A8AA0")
     b2 = ax.bar([i + w / 2 for i in x], [r[3] for r in rows], w,
                 label="deregistered", color="#C05746")
     b1[1].set_color("#3E5A78")  # the 2-5 band is the screen

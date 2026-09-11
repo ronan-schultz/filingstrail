@@ -739,7 +739,7 @@ def cross_check_svg_text(raw_svgs, fragments, bands_log, baseline_log):
             d21 = f"{float(GATE['bands'][3][4]):.0f}% deregistration rate"
             check(g, f"footnote 21+ band: {d21!r}", "present",
                   "present" if any(d21 in t for t in other) else "MISSING")
-            check(g, "legend", "reported assets a year later | deregistered", " | ".join(legend))
+            check(g, "legend", "reported assets thirteen months later | deregistered", " | ".join(legend))
         joined = "\n".join(t for _, t in frag)
         for s in FORBIDDEN:
             check(g, f"forbidden string {s!r} in chart text", 0, joined.count(s))
@@ -912,8 +912,11 @@ def main():
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
     check("read-only", "adv-report/ + archive/ files changed (size, mtime)", "[]", changed)
     status_after = git_status()
-    check("read-only", "git status --porcelain -- adv-report archive CLAUDE.md", "(empty)",
-          status_after or "(empty)")
+    # Unchanged by this run, not necessarily empty: a deliberate, uncommitted
+    # edit to the research code (e.g. a chart label) is the reason to rerun this.
+    # The size/mtime snapshot above is what proves nothing was written.
+    check("read-only", "git status --porcelain -- adv-report archive CLAUDE.md (unchanged by this run)",
+          status_before or "(empty)", status_after or "(empty)")
 
     preview = write_preview(fragments)
     print_table()

@@ -12,7 +12,7 @@
       "row": "Window",
       "value": "August 1 2025 - August 31 2026, thirteen months",
       "must_contain": ["August 1, 2025 to August 31, 2026", "The window runs thirteen months"],
-      "must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b"]
+      "must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b", "\\ba year\\b", "\\byear later\\b", "\\bone year\\b"]
     },
     {
       "row": "Entered / exited / net",

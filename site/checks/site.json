@@ -16,7 +16,7 @@
   "page_weight_limit_bytes": 300000,
   "mobile_viewports": [[320, 900], [375, 812]],
   "screenshot_sizes": [[390, 2400], [1280, 2400]],
-  "window_length_must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b"],
+  "window_length_must_not_match": ["\\btwelve\\b", "\\b12[ -]?months?\\b", "\\b12-month\\b", "\\bfourteen\\b", "\\beleven\\b", "\\ba year\\b", "\\byear later\\b", "\\bone year\\b"],
   "chart_css_vars": {
     "--chart-ink":    ["#1a1a1a", "#e6e3de"],
     "--chart-ink-2":  ["#444444", "#bdb9b2"],

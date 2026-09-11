@@ -936,7 +936,7 @@ def check_A(bundle: Bundle, works: list[dict], site: dict, R: Report, pdf_rels_o
                 for m in re.finditer(rx, v, re.I):
                     hits.append(f'{rel}: /{rx}/ "{ctx_around(v, m.start(), m.end(), 40)}"')
     (R.fail("A-W", "a window length other than thirteen months appears", hits[:12]) if hits
-     else R.ok("A-W", "no other window length (twelve / 12 months / 12-month / fourteen / eleven) on any page or PDF"))
+     else R.ok("A-W", "no other window length (twelve / 12 months / 12-month / fourteen / eleven / a year / year later / one year) on any page or PDF"))
 
     # the root page's figure budget
     root_rel = site.get("root_page", "index.html")

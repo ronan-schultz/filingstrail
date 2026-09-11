@@ -46,10 +46,10 @@
 <text style="font-size: 7.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #666666; fill: var(--chart-muted, #666666)" transform="translate(47.359375 297.993272)">The 21+ band is not a failure rate: firms that large report $0 for structural reasons rather than because they are pre-launch, which its 4% deregistration rate shows.</text>
 <text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 15.431484)">Headcount sorts the pre-launch cohort; website presence does not</text>
 <text style="font-size: 11.5px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" transform="translate(47.359375 28.504828)">628 SEC-registered advisers reporting $0 AUM as of Jul 31, 2025, tracked to Aug 31, 2026</text>
-<path d="M 388.8725 49.046859 L 406.8725 49.046859 L 406.8725 42.746859 L 388.8725 42.746859 z" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
-<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="414.0725" y="49.046859">reported assets a year later</text>
-<path d="M 388.8725 61.883109 L 406.8725 61.883109 L 406.8725 55.583109 L 388.8725 55.583109 z" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
-<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="414.0725" y="61.883109">deregistered</text>
+<path d="M 351.855781 49.046859 L 369.855781 49.046859 L 369.855781 42.746859 L 351.855781 42.746859 z" style="fill: #7a8aa0; fill: var(--chart-bar, #7a8aa0)" />
+<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="377.055781" y="49.046859">reported assets thirteen months later</text>
+<path d="M 351.855781 61.777641 L 369.855781 61.777641 L 369.855781 55.477641 L 351.855781 55.477641 z" style="fill: #c05746; fill: var(--chart-alert, #c05746)" />
+<text style="font-size: 9px; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, &quot;Liberation Sans&quot;, sans-serif; text-anchor: start; fill: #1a1a1a; fill: var(--chart-ink, #1a1a1a)" x="377.055781" y="61.777641">deregistered</text>
 <defs>
 <clipPath id="hc-p56f7427682">
 <rect x="47.359375" y="34.504828" width="484.36" height="200.37144" />

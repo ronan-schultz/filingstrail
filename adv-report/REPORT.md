@@ -1,4 +1,4 @@
-# Two-thirds of pre-launch RIAs haven't launched a year later
+# Two-thirds of pre-launch RIAs haven't launched thirteen months later
 
 There is a state a registered investment adviser can be in where it exists entirely on
 paper. It has a CRD number, an approved SEC registration and a filed brochure. It has no

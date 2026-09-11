@@ -306,7 +306,7 @@ def build_fixture(root: Path, tmp: Path) -> None:
             f'<a href="/adv/new_registrants.csv">Firm-level CSV</a> · <a href="{REPO_URL}">Repository</a></p>')
     body = link_code(body[:h1_end] + meta + body[h1_end:] + "\n" + adv_sources_section())
     (dst / "adv" / "index.html").write_text(
-        page("adv/index.html", "Two-thirds of pre-launch RIAs haven't launched a year later - Filings Trail",
+        page("adv/index.html", "Two-thirds of pre-launch RIAs haven't launched thirteen months later - Filings Trail",
              f"<main>\n{body}\n</main>", canonical="/adv"), encoding="utf-8")
     (dst / "index.html").write_text(page("index.html", "Filings Trail", root_main()), encoding="utf-8")
     (dst / "method" / "index.html").write_text(
